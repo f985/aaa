@@ -10,7 +10,7 @@ import org.mapstruct.NullValueCheckStrategy;
 @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, componentModel = "spring")
 public interface ProductMapper {
 
-    @Mapping(source = "createdById", target = "createdBy.Id")
+    @Mapping(source = "createdById", target = "createdBy.id")
     Product map(CreateProductRequest request);
 
     @Mapping(source = "createdBy.id", target = "createdById")
