@@ -1,12 +1,10 @@
 package am.rockstars.entity;
 
 import am.rockstars.entity.base.AbstractEntity;
-import am.rockstars.entity.enumeration.OrderStatus;
+import am.rockstars.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,13 +15,11 @@ import java.util.Set;
 /**
  * A Order.
  */
-@Entity
-@Table(name = "orders")
 @Getter
 @Setter
-public class Order extends AbstractEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "orders")
+public class Order extends AbstractEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)

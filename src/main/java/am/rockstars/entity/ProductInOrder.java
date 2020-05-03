@@ -15,13 +15,11 @@ import java.math.BigDecimal;
 /**
  * A ProductInOrder.
  */
-@Entity
-@Table(name = "product_in_order")
 @Getter
 @Setter
-public class ProductInOrder extends AbstractEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "product_in_order")
+public class ProductInOrder extends AbstractEntity {
 
     @NotNull
     @Column(name = "quantity", nullable = false)
@@ -39,10 +37,8 @@ public class ProductInOrder extends AbstractEntity implements Serializable {
     private File personalization;
 
     @ManyToOne
-    @JsonIgnoreProperties("productInOrders")
     private Product product;
 
     @ManyToOne
-    @JsonIgnoreProperties("products")
     private Order order;
 }

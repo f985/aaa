@@ -1,11 +1,9 @@
 package am.rockstars.entity;
 
 import am.rockstars.entity.base.AbstractEntity;
-import am.rockstars.entity.enumeration.ShipmentType;
+import am.rockstars.enums.ShipmentType;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,13 +13,11 @@ import java.time.ZonedDateTime;
 /**
  * A Shipment.
  */
-@Entity
-@Table(name = "shipment")
 @Getter
 @Setter
-public class Shipment extends AbstractEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "shipment")
+public class Shipment extends AbstractEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)

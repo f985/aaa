@@ -12,13 +12,11 @@ import java.io.Serializable;
 /**
  * A File.
  */
-@Entity
-@Table(name = "file")
 @Getter
 @Setter
-public class File extends AbstractEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "file")
+public class File extends AbstractEntity {
 
     @Column(name = "name")
     private String name;

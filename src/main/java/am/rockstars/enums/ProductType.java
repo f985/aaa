@@ -1,4 +1,4 @@
-package am.rockstars.entity.enumeration;
+package am.rockstars.enums;
 
 /**
  * The ProductType enumeration.

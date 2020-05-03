@@ -1,11 +1,9 @@
 package am.rockstars.entity;
 
 import am.rockstars.entity.base.AbstractEntity;
-import am.rockstars.entity.enumeration.ProductType;
+import am.rockstars.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,13 +13,11 @@ import java.math.BigDecimal;
 /**
  * A Product.
  */
-@Entity
-@Table(name = "product")
 @Getter
 @Setter
-public class Product extends AbstractEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "product")
+public class Product extends AbstractEntity {
 
     @NotNull
     @Column(name = "name", nullable = false)

@@ -14,19 +14,16 @@ import java.io.Serializable;
 /**
  * A Image.
  */
-@Entity
-@Table(name = "image")
 @Getter
 @Setter
-public class Image extends AbstractEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "image")
+public class Image extends AbstractEntity {
 
     @NotNull
     @Column(name = "url", nullable = false)
     private String url;
 
     @ManyToOne
-    @JsonIgnoreProperties("images")
     private Product productId;
 }
