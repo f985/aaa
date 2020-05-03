@@ -1,12 +1,22 @@
-POST localhost:8080/users
+POST localhost:8082/users
 Content-Type: application/json
 
 {
-	"name":  "Artur1",
-	"surname":  "Vahanyan1",
-	"email":  "artur.vaganyan96@gmail.com1",
-    "password": "a1",
-	"role":  0
+  "name": "Artur1",
+  "surname": "Vahanyan1",
+  "email": "artur.vaganyan96@gmail.com1",
+  "password": "a1",
+  "role": "ADMIN"
+}
+
+###
+
+PUT localhost:8082/login
+Content-Type: application/json
+
+{
+  "username": "artur.vaganyan96@gmail.com1",
+  "password": "a1"
 }
 
 ###
