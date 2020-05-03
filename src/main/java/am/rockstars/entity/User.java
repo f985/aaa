@@ -4,8 +4,12 @@ import am.rockstars.entity.base.AbstractEntity;
 import am.rockstars.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,4 +31,7 @@ public class User extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders = new HashSet<>();
 }

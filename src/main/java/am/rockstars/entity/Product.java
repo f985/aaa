@@ -1,30 +1,45 @@
 package am.rockstars.entity;
 
 import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.enumeration.ProductType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
-@Getter
-@Setter
+/**
+ * A Product.
+ */
 @Entity
 @Table(name = "product")
-public class Product extends AbstractEntity {
+@Getter
+@Setter
+public class Product extends AbstractEntity implements Serializable {
 
-    @Column
+    private static final long serialVersionUID = 1L;
+
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column
-    private String type;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private ProductType type;
 
-    @Column
-    private String quantity;
+    @NotNull
+    @Column(name = "price", precision = 21, scale = 2, nullable = false)
+    private BigDecimal price;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "createdBy")
-    private User createdBy;
+    @NotNull
+    @Column(name = "available_quantity", nullable = false)
+    private Long availableQuantity;
 }
