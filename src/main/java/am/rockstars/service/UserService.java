@@ -4,6 +4,7 @@ import am.rockstars.dto.CreateUserRequest;
 import am.rockstars.entity.User;
 import am.rockstars.mapper.UserMapper;
 import am.rockstars.repository.UserRepository;
+import am.rockstars.security.config.BCryptConfiguration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,14 +17,21 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final BCryptConfiguration bCryptConfiguration;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+
+    public UserService(UserRepository userRepository, UserMapper userMapper, BCryptConfiguration bCryptConfiguration) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.bCryptConfiguration = bCryptConfiguration;
     }
 
     public User createUser(CreateUserRequest createUserRequest) {
-        return userRepository.save(userMapper.map(createUserRequest));
+        User userEntity = userMapper.map(createUserRequest);
+        userEntity.setPassword(
+                bCryptConfiguration.passwordEncoder().encode(userEntity.getPassword()));
+
+        return userRepository.save(userEntity);
     }
 
     public List<User> getAllUsers() {
