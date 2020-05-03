@@ -2,13 +2,13 @@ package am.rockstars.mapper;
 
 import am.rockstars.dto.CreateUserRequest;
 import am.rockstars.entity.User;
+import am.rockstars.security.domain.UserPrincipal;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
-import org.springframework.security.core.userdetails.UserDetails;
 
-@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,componentModel = "spring")
+@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, componentModel = "spring")
 public interface UserMapper {
     User map(CreateUserRequest user);
 
-    UserDetails map(User user);
+    UserPrincipal map(User user);
 }
