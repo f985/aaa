@@ -1,6 +1,7 @@
 package am.rockstars.service;
 
 import am.rockstars.dto.CreateUserRequest;
+import am.rockstars.dto.UserBean;
 import am.rockstars.entity.User;
 import am.rockstars.mapper.UserMapper;
 import am.rockstars.repository.UserRepository;
@@ -9,8 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -34,13 +33,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(userEntity);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User userEntity = userRepository.findByEmail(email);
         return userMapper.map(userEntity);
+    }
+
+    public UserBean getUserByEmail(String email) {
+        User userEntity = userRepository.findByEmail(email);
+        return userMapper.mapToUserBean(userEntity);
     }
 }

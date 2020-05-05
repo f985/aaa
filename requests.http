@@ -20,3 +20,6 @@ Content-Type: application/json
 }
 
 ###
+
+GET localhost:8082/users/current-user
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpZCI6MiwiZXhwIjoxNTg4Nzg4ODAyfQ.aqBkxLRi02_Iie-UbwY9Dk6GB68Kkek7Ej6dL_hn3qpwhZvABUb1PVdYHi0Sco1p081SEaa1wZfcn8kN1kHwVA
