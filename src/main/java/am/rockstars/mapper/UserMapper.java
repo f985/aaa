@@ -11,6 +11,8 @@ import org.mapstruct.NullValueCheckStrategy;
 public interface UserMapper {
     User map(CreateUserRequest user);
 
+    User map(UserBean userBean);
+
     UserPrincipal map(User user);
 
     UserBean mapToUserBean(User user);

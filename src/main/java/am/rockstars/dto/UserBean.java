@@ -1,17 +1,26 @@
 package am.rockstars.dto;
 
-import am.rockstars.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
 public class UserBean {
+
     private String email;
 
-    private String name;
+    private String firstName;
 
-    private String surname;
+    private String lastName;
 
-    private UserRole role;
+    private String gender;
+
+    private LocalDate dateOfBirth;
+
+    private String mobileNumber;
+
+    private String location;
+
 }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,10 +25,22 @@ public class User extends AbstractEntity {
     private String password;
 
     @Column
-    private String name;
+    private String firstName;
 
     @Column
-    private String surname;
+    private String lastName;
+
+    @Column
+    private String gender;
+
+    @Column
+    private LocalDate dateOfBirth;
+
+    @Column
+    private String mobileNumber;
+
+    @Column
+    private String location;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

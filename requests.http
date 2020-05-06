@@ -1,15 +1,16 @@
+# Create User
+
 POST localhost:8082/users
 Content-Type: application/json
 
 {
-  "name": "Artur1",
-  "surname": "Vahanyan1",
+  "firstName": "Artur1",
+  "lastName": "Vahanyan1",
   "email": "artur.vaganyan96@gmail.com1",
-  "password": "a1",
-  "role": "ADMIN"
+  "password": "a1"
 }
 
-###
+### Login User
 
 PUT localhost:8082/login
 Content-Type: application/json
@@ -19,7 +20,23 @@ Content-Type: application/json
   "password": "a1"
 }
 
-###
+### Get User Informetion
 
 GET localhost:8082/users/current-user
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpZCI6MiwiZXhwIjoxNTg4Nzg4ODAyfQ.aqBkxLRi02_Iie-UbwY9Dk6GB68Kkek7Ej6dL_hn3qpwhZvABUb1PVdYHi0Sco1p081SEaa1wZfcn8kN1kHwVA
+
+### Edit User
+
+PUT localhost:8082/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6NCwiZXhwIjoxNTg4ODU4MDAxfQ.mqWs0zAad_UuxbDLHMajfXKx6yxPVtYuHABr0RBZ0iuo9Hhz3CUdrm6Gl1tC6aNRpxDhxrPVtbr1cWkMxbtSNg
+
+{
+  "firstName": "Artur1",
+  "lastName": "Vahanyan1",
+  "email": "artur.vaganyan96@gmail.com1",
+  "gender": "Male",
+  "dateOfBirth": "2015-03-01",
+  "mobileNumber": "+37400000000",
+  "location": "Yerevan"
+}

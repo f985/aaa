@@ -1,21 +1,16 @@
 package am.rockstars.dto;
 
-import am.rockstars.enums.UserRole;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class CreateUserRequest {
-    private String name;
+    private String firstName;
 
-    private String surname;
+    private String lastName;
 
     private String email;
 
     private String password;
-
-    private UserRole role;
 }

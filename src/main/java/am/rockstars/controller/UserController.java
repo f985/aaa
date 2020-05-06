@@ -23,6 +23,12 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(user));
     }
 
+    @PutMapping
+    public void editUser(@RequestBody UserBean editedUser) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        userService.editUser(auth.getName(), editedUser);
+    }
+
     @GetMapping(value = "/current-user")
     public ResponseEntity<?> getCurrentUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
