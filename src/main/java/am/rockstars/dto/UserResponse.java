@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class UserBean {
+public class UserResponse {
 
     private String email;
 
