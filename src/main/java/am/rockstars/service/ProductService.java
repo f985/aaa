@@ -37,7 +37,10 @@ public class ProductService {
     public Product findById(final Long id) {
         Assert.notNull(id, "Id should not be null");
         log.debug("Retrieving product by id '{}'", id);
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundForIdException(id));
+        return productRepository.findById(id).orElseThrow(() -> {
+            log.warn("Not found product for id {} ", id);
+            return new ProductNotFoundForIdException(id);
+        });
     }
 }
 
