@@ -4,6 +4,8 @@ import am.rockstars.security.filter.JWTAuthenticationFilter;
 import am.rockstars.security.filter.JWTLoginFilter;
 import am.rockstars.service.UserService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -26,29 +28,61 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable()
-                .cors().disable()
-                .authorizeRequests()
-                .antMatchers("/users").permitAll()
-                .antMatchers("/users/current-user").authenticated()
-                .antMatchers("/products/*").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    @Configuration
+    @Order(1)
+    public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity httpSecurity) throws Exception {
+            httpSecurity
+                    .antMatcher("/api/**")
+                    .cors().disable()
+                    .csrf().disable()
+                    .logout().disable()
+                    .authorizeRequests()
+                    .antMatchers("/users").permitAll()
+                    .antMatchers("/users/current-user").authenticated()
+                    .antMatchers("products/*").hasAuthority("ADMIN")
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        }
     }
 
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");}
+
+    @Order(2)
+    @Configuration
+    public static class BasicAuthWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(final HttpSecurity http) throws Exception {
+            http.antMatcher("/monitoring/**")
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/monitoring/**").hasAuthority("ADMIN")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+        }
+    }
+
+    @Order(3)
+    @Configuration
+    public static class Swagger extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(final HttpSecurity http) throws Exception {
+            http.authorizeRequests()
+                .mvcMatchers("/swagger-ui.html", "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll();
+        }
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -62,5 +96,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
-
 }

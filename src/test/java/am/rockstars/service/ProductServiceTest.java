@@ -36,7 +36,7 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
     private ProductRepository productRepository;
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
     @DisplayName("Should create product for provided payload")
     @Test
@@ -46,15 +46,15 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
         final EasyRandom easyRandom = new EasyRandom();
         final ProductPayload productPayload = easyRandom.nextObject(ProductPayload.class);
         //Mock
-        when(userRepository.findByEmail(eq("Sergey"))).thenReturn(testUser);
+        when(userService.getUserByEmail(eq("Sergey"))).thenReturn(testUser);
         when(productRepository.save(any(Product.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         //Service call
         productService.createProduct("Sergey", productPayload);
         //Verify
-        verify(userRepository).findByEmail(eq("Sergey"));
+        verify(userService).getUserByEmail(eq("Sergey"));
         final ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);
         verify(productRepository).save(productArgumentCaptor.capture());
-        verifyNoMoreInteractions(userRepository, productRepository);
+        verifyNoMoreInteractions(userService, productRepository);
         //Asserts
         assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload, "availableQuantity", "createdBy", "id", "createdAt", "updatedAt");
     }

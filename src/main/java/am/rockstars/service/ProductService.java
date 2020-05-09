@@ -22,7 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public void createProduct(final String username, final ProductPayload payload) {
@@ -30,7 +30,7 @@ public class ProductService {
         log.debug("Creating product for provided payload '{}' username {}", payload, username);
         final Product product = new Product();
         BeanUtils.copyProperties(payload, product);
-        product.setCreatedBy(userRepository.findByEmail(username));
+        product.setCreatedBy(userService.getUserByEmail(username));
         productRepository.save(product);
     }
 

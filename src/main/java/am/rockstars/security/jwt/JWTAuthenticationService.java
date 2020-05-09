@@ -53,7 +53,7 @@ public class JWTAuthenticationService {
 
     public static Authentication parseAuthHeader(String authHeader) {
 
-        String authToken = authHeader != null ? authHeader.replace(TOKEN_PREFIX, "") : null;
+        String authToken = (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) ? authHeader.replace(TOKEN_PREFIX, "") : null;
 
         if (authToken != null) {
 
