@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
 
     public UserResponse editUser(String email, EditUserProfileRequest editUserProfileRequest) {
         log.info("Trying edit user {} with {}", email, editUserProfileRequest);
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));;
         BeanUtils.copyProperties(editUserProfileRequest, user);
         final User savedUser = userRepository.save(user);
         log.info("Successfully edited user {} with {}", email, editUserProfileRequest);
@@ -55,6 +55,11 @@ public class UserService implements UserDetailsService {
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+    }
+
+    public UserResponse getUserResponseByEmail(String email) {
+        final User userEntity = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+        return userMapper.mapToUserResponse(userEntity);
     }
 
 }
