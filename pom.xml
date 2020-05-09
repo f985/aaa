@@ -24,6 +24,7 @@
         <jwt.version>0.7.0</jwt.version>
         <easy.random.version>4.2.0</easy.random.version>
         <assertj.version>3.16.0</assertj.version>
+        <java.melody.version>1.82.0</java.melody.version>
     </properties>
 
     <dependencies>
@@ -75,6 +76,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bull.javamelody</groupId>
+            <artifactId>javamelody-spring-boot-starter</artifactId>
+            <version>${java.melody.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
