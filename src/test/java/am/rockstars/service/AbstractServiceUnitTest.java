@@ -7,7 +7,7 @@ public abstract class AbstractServiceUnitTest {
     User createTestUser(final String username) {
         final User user = new User();
         user.setEmail(username);
-        user.setName("Test user");
+        user.setLastName("Test user");
         return user;
     }
 }

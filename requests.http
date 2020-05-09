@@ -1,6 +1,6 @@
 # Create User
 
-POST localhost:8082/users
+POST localhost:8082/api/users
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ### Login User
 
-PUT localhost:8082/login
+PUT localhost:8082/api/login
 Content-Type: application/json
 
 {
@@ -22,12 +22,12 @@ Content-Type: application/json
 
 ### Get User Informetion
 
-GET localhost:8082/users/current-user
+GET localhost:8082/api/users/current-user
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
 
 ### Edit User
 
-PUT localhost:8082/users
+PUT localhost:8082/api/users
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
 

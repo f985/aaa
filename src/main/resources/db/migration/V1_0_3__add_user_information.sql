@@ -1,5 +1,6 @@
 ALTER TABLE users
     DROP COLUMN name,
+    DROP COLUMN surname,
     ADD COLUMN first_name varchar(35),
     ADD COLUMN last_name varchar(40),
     ADD COLUMN gender varchar(10),
