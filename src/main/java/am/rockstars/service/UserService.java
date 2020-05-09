@@ -49,12 +49,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User userEntity = userRepository.findByEmail(email);
+        User userEntity = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         return userMapper.map(userEntity);
     }
 
-    public UserResponse getUserByEmail(String email) {
-        User userEntity = userRepository.findByEmail(email);
-        return userMapper.mapToUserResponse(userEntity);
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
+
 }

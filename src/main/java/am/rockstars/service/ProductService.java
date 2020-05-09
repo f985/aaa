@@ -22,7 +22,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Transactional
     public void createProduct(final String username, final ProductPayload payload) {
@@ -30,14 +30,17 @@ public class ProductService {
         log.debug("Creating product for provided payload '{}' username {}", payload, username);
         final Product product = new Product();
         BeanUtils.copyProperties(payload, product);
-        product.setCreatedBy(userRepository.findByEmail(username));
+        product.setCreatedBy(userService.getUserByEmail(username));
         productRepository.save(product);
     }
 
     public Product findById(final Long id) {
         Assert.notNull(id, "Id should not be null");
         log.debug("Retrieving product by id '{}'", id);
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundForIdException(id));
+        return productRepository.findById(id).orElseThrow(() -> {
+            log.warn("Not found product for id {} ", id);
+            return new ProductNotFoundForIdException(id);
+        });
     }
 }
 

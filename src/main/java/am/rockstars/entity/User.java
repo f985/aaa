@@ -2,7 +2,9 @@ package am.rockstars.entity;
 
 import am.rockstars.entity.base.AbstractEntity;
 import am.rockstars.enums.UserRole;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
