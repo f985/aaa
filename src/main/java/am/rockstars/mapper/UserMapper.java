@@ -12,8 +12,6 @@ import org.mapstruct.NullValueCheckStrategy;
 public interface UserMapper {
     User map(CreateUserRequest user);
 
-    User map(EditUserProfileRequest editUserProfileRequest);
-
     UserPrincipal map(User user);
 
     UserResponse mapToUserResponse(User user);

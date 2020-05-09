@@ -9,6 +9,7 @@ import am.rockstars.mapper.UserMapper;
 import am.rockstars.repository.UserRepository;
 import am.rockstars.security.config.BCryptConfiguration;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,12 +41,8 @@ public class UserService implements UserDetailsService {
     public UserResponse editUser(String email, EditUserProfileRequest editUserProfileRequest) {
         log.info("Trying edit user {} with {}", email, editUserProfileRequest);
         User user = userRepository.findByEmail(email);
-        User userEntity = userMapper.map(editUserProfileRequest);
-        userEntity.setId(user.getId());
-        userEntity.setPassword(user.getPassword());
-        userEntity.setRole(user.getRole());
-        userEntity.setOrders(user.getOrders());
-        final User savedUser = userRepository.save(userEntity);
+        BeanUtils.copyProperties(editUserProfileRequest, user);
+        final User savedUser = userRepository.save(user);
         log.info("Successfully edited user {} with {}", email, editUserProfileRequest);
         return userMapper.mapToUserResponse(savedUser);
     }

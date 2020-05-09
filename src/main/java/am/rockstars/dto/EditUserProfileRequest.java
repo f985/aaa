@@ -21,6 +21,6 @@ public class EditUserProfileRequest {
 
     private String mobileNumber;
 
-    private String location;
+    private String city;
 
 }

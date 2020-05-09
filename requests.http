@@ -29,14 +29,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtY
 
 PUT localhost:8082/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6NCwiZXhwIjoxNTg4ODU4MDAxfQ.mqWs0zAad_UuxbDLHMajfXKx6yxPVtYuHABr0RBZ0iuo9Hhz3CUdrm6Gl1tC6aNRpxDhxrPVtbr1cWkMxbtSNg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
 
 {
   "firstName": "Artur1",
   "lastName": "Vahanyan1",
   "email": "artur.vaganyan96@gmail.com1",
-  "gender": "Male",
+  "gender": "male",
   "dateOfBirth": "2015-03-01",
   "mobileNumber": "+37400000000",
-  "location": "Yerevan"
+  "city": "Yerevan"
 }

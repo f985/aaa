@@ -40,7 +40,7 @@ public class User extends AbstractEntity {
     private String mobileNumber;
 
     @Column
-    private String location;
+    private String city;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
