@@ -1,7 +1,6 @@
 package am.rockstars.dto;
 
 import am.rockstars.validator.EmailNotExist;
-import am.rockstars.validator.UserPassword;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,15 +10,8 @@ import javax.validation.constraints.Email;
 @Getter
 @Setter
 @ToString
-public class CreateUserRequest {
-    private String firstName;
-
-    private String lastName;
-
+public class UserPasswordResetInitRequest {
     @Email
     @EmailNotExist
     private String email;
-
-    @UserPassword
-    private String password;
 }

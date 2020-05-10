@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
 import java.time.LocalDate;
 
 @Getter
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @ToString
 public class UserResponse {
 
+    @Email
     private String email;
 
     private String firstName;

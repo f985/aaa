@@ -5,10 +5,8 @@ import am.rockstars.dto.EditUserProfileRequest;
 import am.rockstars.dto.UserResponse;
 import am.rockstars.entity.User;
 import am.rockstars.enums.UserRole;
-import am.rockstars.exception.EmailAlreadyUsedException;
 import am.rockstars.exception.InvalidPasswordException;
 import am.rockstars.exception.WrongActivationKeyException;
-import am.rockstars.exception.WrongResetKeyException;
 import am.rockstars.mapper.UserMapper;
 import am.rockstars.repository.UserRepository;
 import am.rockstars.security.config.BCryptConfiguration;
@@ -20,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,9 +36,6 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(final CreateUserRequest createUserRequest) {
-        if (userRepository.findByEmail(createUserRequest.getEmail()).isPresent()) {
-            throw new EmailAlreadyUsedException();
-        }
         User userEntity = userMapper.map(createUserRequest);
         userEntity.setPassword(
                 bCryptConfiguration.passwordEncoder().encode(userEntity.getPassword()));
@@ -74,42 +68,33 @@ public class UserService implements UserDetailsService {
         return userMapper.mapToUserResponse(userEntity);
     }
 
-    public User activateRegistration(final String key) {
+    public void activateRegistration(final String key) {
         log.debug("Activating user for activation key {}", key);
-        final Optional<User> userOptional = userRepository.findByActivationKey(key);
-        if (userOptional.isEmpty()) {
-            throw new WrongActivationKeyException(key);
-        }
-        return userOptional
+        userRepository.findByActivationKey(key)
                 .map(user -> {
                     user.setActivated(true);
                     user.setActivationKey(null);
                     userRepository.save(user);
                     log.debug("Activated user: {}", user);
                     return user;
-                }).get();
+                }).orElseThrow(() -> new WrongActivationKeyException(key));
     }
 
     public void completePasswordReset(final String newPassword, final String key) {
         log.debug("Reset user password for reset key {}", key);
-        final Optional<User> optionalUser = userRepository.findByResetKey(key)
+        userRepository.findByResetKey(key)
                 .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
-                .map(user -> {
+                .ifPresent(user -> {
                     user.setPassword(bCryptConfiguration.passwordEncoder().encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
                     userRepository.save(user);
-                    return user;
                 });
-        if (optionalUser.isEmpty()) {
-            throw new WrongResetKeyException(key);
-        }
-
     }
 
     public String requestPasswordReset(final String email) {
         log.debug("Trying reset password for User with email: {}", email);
-        final Optional<User> userOptional = userRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .filter(User::isActivated)
                 .map(user -> {
                     user.setResetKey(UUID.randomUUID().toString());
@@ -117,23 +102,15 @@ public class UserService implements UserDetailsService {
                     userRepository.save(user);
                     //(mailService or smsService).sendPasswordResetMail(user.getEmail);
                     log.debug("Successfully created reset key and date for User with email: {}", user);
-                    return user;
-                });
-        if (userOptional.isEmpty()) {
-            log.warn("Password reset requested for non existing email '{}'", email);
-        } else { //this part will remove after implementing mail or sms service
-
-            return userOptional.get().getResetKey();
-        }
-        return "wrong email";
+                    return user.getResetKey();
+                }).get();
     }
 
     public void changePassword(final String email, final String currentClearTextPassword, final String newPassword) {
         log.debug("Trying change password for User with email: {}", email);
         userRepository.findByEmail(email)
                 .ifPresent(user -> {
-                    String currentEncryptedPassword = user.getPassword();
-                    if (!bCryptConfiguration.passwordEncoder().matches(currentClearTextPassword, currentEncryptedPassword)) {
+                    if (!bCryptConfiguration.passwordEncoder().matches(currentClearTextPassword, user.getPassword())) {
                         throw new InvalidPasswordException();
                     }
                     user.setPassword(bCryptConfiguration.passwordEncoder().encode(newPassword));
