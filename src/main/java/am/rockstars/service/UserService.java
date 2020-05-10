@@ -35,6 +35,7 @@ public class UserService implements UserDetailsService {
         this.bCryptConfiguration = bCryptConfiguration;
     }
 
+    @Transactional
     public User createUser(final CreateUserRequest createUserRequest) {
         log.debug("Trying Create user with email: {}", createUserRequest.getEmail());
         User userEntity = userMapper.map(createUserRequest);
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserResponse editUserProfile(final String email, final EditUserProfileRequest editUserProfileRequest) {
         log.debug("Trying edit user {} with {}", email, editUserProfileRequest);
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+        final User user = userRepository.findOneByEmail(email);
         BeanUtils.copyProperties(editUserProfileRequest, user);
         final User savedUser = userRepository.save(user);
         log.debug("Successfully edited user {} with {}", email, editUserProfileRequest);
@@ -86,37 +87,30 @@ public class UserService implements UserDetailsService {
                         () -> log.warn("Cannot find user with Reset key {}", key));
     }
 
-    public String requestPasswordReset(final String email) {
+    public void requestPasswordReset(final String email) {
         log.debug("Trying reset password for User with email: {}", email);
-        return userRepository.findByEmail(email)
+        userRepository.findByEmail(email)
                 .filter(User::isActivated)
-                .map(this::createUserPasswordResetMail)
-                .orElse(userNotFoundWarning(email));
+                .ifPresentOrElse(this::createUserPasswordResetMail,
+                        () -> log.warn("Cannot find user with email {}", email));
     }
 
     public void changePassword(final String email, final String currentClearTextPassword, final String newPassword) {
         log.debug("Trying change password for User with email: {}", email);
-        userRepository.findByEmail(email)
-                .ifPresentOrElse(user -> checkOldPasswordAndUseNewOne(currentClearTextPassword, newPassword, user),
-                        () -> log.warn("Cannot find user by email {} for changing password", email));
-    }
-
-    private void checkOldPasswordAndUseNewOne(String currentClearTextPassword, String newPassword, User user) {
+        final User user = userRepository.findOneByEmail(email);
         if (!bCryptConfiguration.passwordEncoder().matches(currentClearTextPassword, user.getPassword())) {
             throw new InvalidPasswordException();
         }
         user.setPassword(bCryptConfiguration.passwordEncoder().encode(newPassword));
         userRepository.save(user);
-        log.debug("Reset password for User: {}", user);
     }
 
-    private String createUserPasswordResetMail(final User user) {
+    private void createUserPasswordResetMail(final User user) {
         user.setResetKey(UUID.randomUUID().toString());
         user.setResetDate(Instant.now());
         userRepository.save(user);
         //(mailService).sendPasswordResetMail(user.getEmail);
         log.debug("Successfully created password reset mail with for User with email: {}", user);
-        return user.getResetKey();
     }
 
     private void activateUser(User user) {
@@ -132,11 +126,5 @@ public class UserService implements UserDetailsService {
         user.setResetDate(null);
         userRepository.save(user);
         log.debug("Successfully changed password using reset mail key for user with email: {}", user.getEmail());
-    }
-
-    private String userNotFoundWarning(final String email) {
-        // this method should be void after implementing mail service
-        log.warn("Cannot find user with email {}", email);
-        return "";
     }
 }

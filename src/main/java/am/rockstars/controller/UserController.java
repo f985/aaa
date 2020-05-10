@@ -37,23 +37,27 @@ public class UserController {
     }
 
     @GetMapping("/activate")
-    public void activateAccount(@RequestParam(value = "key") String key) {
+    public ResponseEntity<?> activateAccount(@RequestParam(value = "key") String key) {
         userService.activateRegistration(key);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/change-password")
-    public void changePassword(@Valid @RequestBody UserPasswordChangeRequest changeRequest) {
+    public ResponseEntity<?> changePassword(@Valid @RequestBody UserPasswordChangeRequest changeRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userService.changePassword(auth.getName(), changeRequest.getOldPassword(), changeRequest.getNewPassword());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/reset-password/init")
-    public String requestPasswordReset(@Valid @RequestBody UserPasswordResetInitRequest resetInitRequest) {
-        return userService.requestPasswordReset(resetInitRequest.getEmail());
+    public ResponseEntity<?> requestPasswordReset(@Valid @RequestBody UserPasswordResetInitRequest resetInitRequest) {
+        userService.requestPasswordReset(resetInitRequest.getEmail());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/reset-password/finish")
-    public void finishPasswordReset(@Valid @RequestBody UserPasswordResetRequest resetRequest) {
+    public ResponseEntity<?> finishPasswordReset(@Valid @RequestBody UserPasswordResetRequest resetRequest) {
         userService.completePasswordReset(resetRequest.getPassword(), resetRequest.getKey());
+        return ResponseEntity.ok().build();
     }
 }
