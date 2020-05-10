@@ -1,6 +1,6 @@
 package am.rockstars.dto;
 
-import am.rockstars.validator.EmailNotExist;
+import am.rockstars.validator.UniqueEmail;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,6 +12,6 @@ import javax.validation.constraints.Email;
 @ToString
 public class UserPasswordResetInitRequest {
     @Email
-    @EmailNotExist
+    @UniqueEmail
     private String email;
 }

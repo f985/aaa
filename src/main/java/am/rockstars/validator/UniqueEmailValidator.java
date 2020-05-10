@@ -7,7 +7,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @RequiredArgsConstructor
-public class EmailNotExistValidator implements ConstraintValidator<UniqueProduct, String> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
     private final UserRepository userRepository;
 

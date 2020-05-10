@@ -1,6 +1,6 @@
 package am.rockstars.dto;
 
-import am.rockstars.validator.EmailNotExist;
+import am.rockstars.validator.UniqueEmail;
 import am.rockstars.validator.UserPassword;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ public class CreateUserRequest {
     private String lastName;
 
     @Email
-    @EmailNotExist
+    @UniqueEmail
     private String email;
 
     @UserPassword
