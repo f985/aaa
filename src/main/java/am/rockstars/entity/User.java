@@ -2,14 +2,12 @@ package am.rockstars.entity;
 
 import am.rockstars.entity.base.AbstractEntity;
 import am.rockstars.enums.UserRole;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,14 +24,39 @@ public class User extends AbstractEntity {
     private String password;
 
     @Column
-    private String name;
+    private String firstName;
 
     @Column
-    private String surname;
+    private String lastName;
+
+    @Column(nullable = false)
+    private boolean activated = false;
+
+    @Column
+    private String activationKey;
+
+    @Column
+    private String gender;
+
+    @Column
+    private LocalDate dateOfBirth;
+
+    @Column
+    private String mobileNumber;
+
+    @Column
+    private String city;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
+
+
+    @Column
+    private String resetKey;
+
+    @Column
+    private Instant resetDate = null;
 }

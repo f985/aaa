@@ -10,7 +10,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,9 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .logout().disable()
                     .authorizeRequests()
-                    .antMatchers("/users").permitAll()
-                    .antMatchers("/users/current-user").authenticated()
-                    .antMatchers("products/*").hasAuthority("ADMIN")
+                    .antMatchers("/api/users").permitAll()
+                    .antMatchers("/api/users/activate").permitAll()
+                    .antMatchers("/api/users/current-user").authenticated()
+                    .antMatchers("/api/products/*").hasAuthority("ADMIN")
                     .anyRequest().authenticated()
                     .and()
                     .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
@@ -57,13 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             http.antMatcher("/monitoring/**")
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/monitoring/**").hasAuthority("ADMIN")
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();
+                    .csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers("/monitoring/**").hasAuthority("ADMIN")
+                    .anyRequest()
+                    .authenticated()
+                    .and()
+                    .httpBasic();
         }
     }
 
@@ -74,12 +74,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             http.authorizeRequests()
-                .mvcMatchers("/swagger-ui.html", "/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**").permitAll();
+                    .mvcMatchers("/swagger-ui.html", "/v2/api-docs",
+                            "/configuration/ui",
+                            "/swagger-resources/**",
+                            "/configuration/security",
+                            "/swagger-ui.html",
+                            "/webjars/**").permitAll();
         }
     }
 
