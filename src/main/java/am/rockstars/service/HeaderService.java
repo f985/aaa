@@ -5,6 +5,7 @@ import am.rockstars.entity.Header;
 import am.rockstars.repository.HeaderRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class HeaderService {
         return headerRepository.findAll();
     }
 
+    @Transactional
     public void addHeader(final CreateHeaderRequest headerRequest) {
         final Header header = new Header();
         BeanUtils.copyProperties(headerRequest, header);

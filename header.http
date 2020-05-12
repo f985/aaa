@@ -1,0 +1,12 @@
+### Create User
+
+POST localhost:8082/api/header
+Content-Type: application/json
+
+{
+  "state": "state",
+  "name": "Aaa",
+  "icon": "test",
+  "mega": false,
+  "type": "sub"
+}

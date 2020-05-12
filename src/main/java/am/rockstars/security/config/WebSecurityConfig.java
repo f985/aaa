@@ -39,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout().disable()
                     .authorizeRequests()
                     .antMatchers("/api/users").permitAll()
+                    .antMatchers("/api/header").permitAll()
                     .antMatchers("/api/users/activate").permitAll()
                     .antMatchers("/api/users/current-user").authenticated()
                     .antMatchers("/api/products/*").hasAuthority("ADMIN")
