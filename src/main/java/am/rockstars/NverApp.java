@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class NverApp {
     public static void main(String[] args) {
-        SpringApplication.run(NverApp.class, args)
+        SpringApplication.run(NverApp.class, args);
     }
 }
