@@ -32,6 +32,9 @@ public class HeaderResponse extends AbstractHeaderResponse {
         @Setter
         @ToString
         public static class HeaderChildNodeResponse extends AbstractHeaderResponse {
+
+            private String queryState;
+
             private HeaderChildType type;
         }
     }

@@ -18,6 +18,8 @@ public class HeaderChildElement extends AbstractHeaderEntity {
     @ManyToOne
     private HeaderChild child;
 
+    private String queryState;
+
     @Enumerated(EnumType.STRING)
     private HeaderChildElementType type;
 }

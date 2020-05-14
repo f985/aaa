@@ -33,6 +33,8 @@ public class EditHeaderResponse extends AbstractHeader {
         @ToString
         public static class HeaderChildNodeResponse extends AbstractHeader {
 
+            private String queryState;
+
             private HeaderChildType type;
         }
     }

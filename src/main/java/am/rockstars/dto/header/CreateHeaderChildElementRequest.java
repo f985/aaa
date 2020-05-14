@@ -11,6 +11,8 @@ import lombok.ToString;
 @ToString
 public class CreateHeaderChildElementRequest extends AbstractHeader {
 
+    private String queryState;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private HeaderChildElementType type;
 
