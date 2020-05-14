@@ -5,15 +5,13 @@ import am.rockstars.enums.HeaderType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "header")
 public class Header extends AbstractHeaderEntity {
 
     private Boolean mega;
@@ -21,7 +19,7 @@ public class Header extends AbstractHeaderEntity {
     @Enumerated(EnumType.STRING)
     private HeaderType type;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "header", cascade = CascadeType.ALL)
     private List<HeaderChild> children;
 
 }

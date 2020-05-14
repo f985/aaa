@@ -1,6 +1,6 @@
 package am.rockstars.controller;
 
-import am.rockstars.dto.*;
+import am.rockstars.dto.user.*;
 import am.rockstars.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

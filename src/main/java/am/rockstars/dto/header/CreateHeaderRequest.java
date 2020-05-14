@@ -1,4 +1,4 @@
-package am.rockstars.dto;
+package am.rockstars.dto.header;
 
 import am.rockstars.enums.HeaderType;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,13 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CreateHeaderRequest {
-
-    private String state;
-
-    private String name;
-
-    private String icon;
+public class CreateHeaderRequest extends AbstractHeader {
 
     private Boolean mega;
 

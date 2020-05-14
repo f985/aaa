@@ -1,4 +1,4 @@
-package am.rockstars.dto;
+package am.rockstars.dto.user;
 
 import am.rockstars.validator.UserPassword;
 import lombok.Getter;
@@ -8,9 +8,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UserPasswordChangeRequest {
+public class UserPasswordResetRequest {
+    private String key;
     @UserPassword
-    private String oldPassword;
-    @UserPassword
-    private String newPassword;
+    private String password;
 }

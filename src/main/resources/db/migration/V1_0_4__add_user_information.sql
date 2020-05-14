@@ -24,22 +24,13 @@ create table header_child
 	icon varchar(255),
 	name varchar(255),
 	state varchar(255),
-	type varchar(255)
+	type varchar(255),
+	header_id bigint
+		constraint fkm3x3dyu4s5gsewbco45q9mtb4
+			references header
 );
 
 alter table header_child owner to root;
-
-create table header_children
-(
-	header_id bigint not null
-		constraint fk6tib1lyn6trs96vh0kowy0syf
-			references header,
-	children_id bigint not null
-		constraint fkd7qw8p4dwi73sayc7r6mal6rr
-			references header_child
-);
-
-alter table header_children owner to root;
 
 create table header_child_element
 (
@@ -51,20 +42,11 @@ create table header_child_element
 	icon varchar(255),
 	name varchar(255),
 	state varchar(255),
-	type varchar(255)
+	type varchar(255),
+	child_id bigint
+		constraint fk9d49lhm2qnb8t04ixsvxa3aeh
+			references header_child
 );
 
 alter table header_child_element owner to root;
-
-create table header_child_children
-(
-	header_child_id bigint not null
-		constraint fk65hfk76k5itbu0dnojuwc3llr
-			references header_child,
-	children_id bigint not null
-		constraint fk2dstl8q4gu2yjjvwfnxks9j1x
-			references header_child_element
-);
-
-alter table header_child_children owner to root;
 

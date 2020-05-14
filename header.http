@@ -1,12 +1,39 @@
-### Create User
+### Create header
 
 POST localhost:8082/api/header
 Content-Type: application/json
 
 {
+  "id": 1,
   "state": "state",
   "name": "Aaa",
   "icon": "test",
   "mega": false,
   "type": "sub"
+}
+
+### Create header child
+
+POST localhost:8082/api/header/1/child
+Content-Type: application/json
+
+{
+  "id": 1,
+  "state": "123",
+  "name": "123123",
+  "icon": "3333333",
+  "type": "sub"
+}
+
+### Create header element
+
+POST localhost:8082/api/header/child/1/element
+Content-Type: application/json
+
+{
+  "id": 1,
+  "state": "1armen",
+  "name": "sdsd",
+  "icon": "zxcssd",
+  "type": "link"
 }

@@ -5,20 +5,21 @@ import am.rockstars.enums.HeaderChildType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "headerChild")
 public class HeaderChild extends AbstractHeaderEntity {
 
     @Enumerated(EnumType.STRING)
     private HeaderChildType type;
 
-    @ManyToMany
+    @ManyToOne
+    private Header header;
+
+    @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
     private List<HeaderChildElement> children;
 }
