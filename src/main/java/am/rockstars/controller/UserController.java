@@ -26,6 +26,6 @@ public class UserController {
     @GetMapping(value = "/current-user")
     public ResponseEntity<?> getCurrentUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return ResponseEntity.ok(userService.getUserByEmail(auth.getName()));
+        return ResponseEntity.ok(auth);
     }
 }
