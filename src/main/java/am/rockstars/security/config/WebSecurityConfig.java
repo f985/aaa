@@ -10,13 +10,18 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Order(1)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
@@ -27,62 +32,57 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Configuration
-    @Order(1)
-    public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity httpSecurity) throws Exception {
-            httpSecurity
-                    .antMatcher("/api/**")
-                    .cors().disable()
-                    .csrf().disable()
-                    .logout().disable()
-                    .authorizeRequests()
-                    .antMatchers("/api/users").permitAll()
-                    .antMatchers("/api/users/activate").permitAll()
-                    .antMatchers("/api/users/current-user").authenticated()
-                    .antMatchers("/api/products/*").hasAuthority("ADMIN")
-                    .anyRequest().authenticated()
-                    .and()
-                    .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        }
+    @Override
+    public void configure(final HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .cors().disable()
+                .csrf().disable()
+                .formLogin().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .httpBasic().disable()
+                .antMatcher("/api/**")
+                .oauth2Login().authorizationEndpoint().baseUri("/api/oauth2/authorization").and()
+                .redirectionEndpoint().baseUri("/api/login/oauth2/code/*").and()
+                .successHandler((request, response, authentication) -> response.sendRedirect("/api/users/current-user")).and()
+                .exceptionHandling().defaultAuthenticationEntryPointFor(new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/api/**"))
+                .and()
+                .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers("/users", "/users/activate", "/actuator/**", "/api/login/**", "/api/oauth2/").permitAll()
+                .antMatchers("/users/current-user").authenticated()
+                .antMatchers("/products/*").hasAuthority("ADMIN")
+                .anyRequest().authenticated();
+
     }
 
 
     @Order(2)
     @Configuration
     public static class BasicAuthWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
-            http.antMatcher("/monitoring/**")
-                    .csrf().disable()
-                    .authorizeRequests()
-                    .antMatchers("/monitoring/**").hasAuthority("ADMIN")
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                    .httpBasic();
+            http.formLogin().disable()
+                .csrf().disable()
+                .httpBasic()
+                .and()
+                .antMatcher("/monitoring/**")
+                .logout().logoutUrl("/monitoring/logout")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/monitoring/**").hasAuthority("ADMIN")
+                .anyRequest()
+                .authenticated();
         }
-    }
-
-    @Order(3)
-    @Configuration
-    public static class Swagger extends WebSecurityConfigurerAdapter {
 
         @Override
-        protected void configure(final HttpSecurity http) throws Exception {
-            http.authorizeRequests()
-                    .mvcMatchers("/swagger-ui.html", "/v2/api-docs",
-                            "/configuration/ui",
-                            "/swagger-resources/**",
-                            "/configuration/security",
-                            "/swagger-ui.html",
-                            "/webjars/**").permitAll();
+        public void configure(final WebSecurity web) throws Exception {
+            web.ignoring()
+               .antMatchers("/swagger-ui.html", "/v2/api-docs",
+                       "/configuration/ui", "/swagger-resources/**",
+                       "/configuration/security", "/swagger-ui.html", "/webjars/**");
         }
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
