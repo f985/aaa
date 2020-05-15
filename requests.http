@@ -1,25 +1,78 @@
+### Create User
+
 POST localhost:8082/api/users
 Content-Type: application/json
 
 {
-  "name": "Artur1",
-  "surname": "Vahanyan1",
-  "email": "artur.vaganyan96@gmail.com1",
-  "password": "a1",
-  "role": "ADMIN"
+  "firstName": "Artur",
+  "lastName": "Vahanyan",
+  "email": "artur.vaganyan96@gmail.com",
+  "password": "a1"
 }
 
-###
+### Activate User
+
+GET localhost:8082/api/users/activate?key=45b3b919-7fd2-49e6-88c5-581413682ea7
+Content-Type: application/json
+
+
+### Login User
 
 PUT localhost:8082/api/login
 Content-Type: application/json
 
 {
-  "username": "artur.vaganyan96@gmail.com1",
-  "password": "a1"
+  "username": "artur.vaganyan96@gmail.com",
+  "password": "1234567"
 }
 
-###
+### Get User Informetion
 
 GET localhost:8082/api/users/current-user
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpZCI6MiwiZXhwIjoxNTg4Nzg4ODAyfQ.aqBkxLRi02_Iie-UbwY9Dk6GB68Kkek7Ej6dL_hn3qpwhZvABUb1PVdYHi0Sco1p081SEaa1wZfcn8kN1kHwVA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
+
+### Edit User
+
+PUT localhost:8082/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
+
+{
+  "firstName": "Artur",
+  "lastName": "Vahanyan",
+  "email": "artur.vaganyan96@gmail.com",
+  "gender": "male",
+  "dateOfBirth": "2015-03-01",
+  "mobileNumber": "+37400000000",
+  "city": "Yerevan"
+}
+
+### Reset User password step 1
+
+POST localhost:8082/api/users/reset-password/init
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
+
+artur.vaganyan96@gmail.com
+
+### Reset User password step 2
+
+POST localhost:8082/api/users/reset-password/finish
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbTEiLCJBdXRob3JpdGllcyI6WyJDVVNUT01FUiJdLCJpZCI6MSwiZXhwIjoxNTg5MTQyMDMzfQ.6lC28EttF-8nsvZd2CV31Am6pDcj_DW2d8t9bxogho0a8Uw6sZaQ_RDkfn2zueEXF6wvwAoj-BaEPX2HZp_nvA
+
+{
+  "key": "813f464d-cabe-48db-9e76-b627032e2c63",
+  "password": "123456"
+}
+
+### Change User password
+
+POST localhost:8082/api/users/change-password
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkNVU1RPTUVSIl0sImlkIjoxLCJleHAiOjE1ODkxOTMzNjZ9.5_raeCw6e0oqjB0ZQL_6aPV5B6OzcAjIAgNXd3dVVZaRVB1yH6K1RYHhc9wNp5CfKvthZ8fuJNAlEpqSQwW9Sw
+
+{
+  "newPassword": "1234567",
+  "oldPassword": "123456"
+}

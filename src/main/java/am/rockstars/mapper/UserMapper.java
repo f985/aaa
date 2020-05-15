@@ -1,7 +1,8 @@
 package am.rockstars.mapper;
 
 import am.rockstars.dto.CreateUserRequest;
-import am.rockstars.dto.UserBean;
+import am.rockstars.dto.EditUserProfileRequest;
+import am.rockstars.dto.UserResponse;
 import am.rockstars.entity.User;
 import am.rockstars.security.domain.UserPrincipal;
 import org.mapstruct.Mapper;
@@ -13,5 +14,5 @@ public interface UserMapper {
 
     UserPrincipal map(User user);
 
-    UserBean mapToUserBean(User user);
+    UserResponse mapToUserResponse(User user);
 }

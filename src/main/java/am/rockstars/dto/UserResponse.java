@@ -1,25 +1,30 @@
 package am.rockstars.dto;
 
-import am.rockstars.validator.UniqueEmail;
-import am.rockstars.validator.UserPassword;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
-public class CreateUserRequest {
+public class UserResponse {
+
+    @Email
+    private String email;
+
     private String firstName;
 
     private String lastName;
 
-    @Email
-    @UniqueEmail
-    private String email;
+    private String gender;
 
-    @UserPassword
-    private String password;
+    private LocalDate dateOfBirth;
+
+    private String mobileNumber;
+
+    private String city;
+
 }
