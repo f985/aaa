@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class HeaderController {
 
     private final HeaderService headerService;
@@ -17,42 +17,42 @@ public class HeaderController {
         this.headerService = headerService;
     }
 
-    @GetMapping("/header")
+    @GetMapping("api/header")
     public ResponseEntity<?> get() {
         return ResponseEntity.ok(headerService.get());
     }
 
-    @DeleteMapping("/header/{headerId}")
+    @DeleteMapping("admin/header/{headerId}")
     public ResponseEntity<?> delete(@PathVariable final Long headerId) {
         return ResponseEntity.ok(headerService.deleteHeader(headerId));
     }
 
-    @DeleteMapping("/header/child/{childId}")
+    @DeleteMapping("admin/header/child/{childId}")
     public ResponseEntity<?> deleteChild(@PathVariable final Long childId) {
         return ResponseEntity.ok(headerService.deleteChild(childId));
     }
 
-    @DeleteMapping("/header/child/element/{childElementId}")
+    @DeleteMapping("admin/header/child/element/{childElementId}")
     public ResponseEntity<?> deleteChildElement(@PathVariable final Long childElementId) {
         return ResponseEntity.ok(headerService.deleteChildElement(childElementId));
     }
 
-    @GetMapping("/header/edit")
+    @GetMapping("admin/header/edit-response")
     public ResponseEntity<?> getEdit() {
-        return ResponseEntity.ok(headerService.getForEdit());
+        return ResponseEntity.ok(headerService.getEditResponse());
     }
 
-    @PostMapping("/header")
+    @PostMapping("admin/header/")
     public ResponseEntity<?> add(@RequestBody CreateHeaderRequest request) {
         return ResponseEntity.ok(headerService.addHeader(request));
     }
 
-    @PostMapping("/header/{headerId}/child")
+    @PostMapping("/admin/header/{headerId}/child")
     public ResponseEntity<?> addChild(@RequestBody CreateHeaderChildRequest request, @PathVariable final Long headerId) {
         return ResponseEntity.ok(headerService.addHeaderChild(request, headerId));
     }
 
-    @PostMapping("/header/child/{childId}/element")
+    @PostMapping("/admin/header/child/{childId}/element")
     public ResponseEntity<?> addChildElement(@RequestBody CreateHeaderChildElementRequest request, @PathVariable final Long childId) {
         return ResponseEntity.ok(headerService.addHeaderChildElement(request, childId));
     }

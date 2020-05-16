@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CreateHeaderRequest extends AbstractHeader {
+public class CreateHeaderRequest extends AbstractHeaderEditResponse {
 
     private Boolean mega;
 

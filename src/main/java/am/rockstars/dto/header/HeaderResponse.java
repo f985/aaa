@@ -1,5 +1,6 @@
 package am.rockstars.dto.header;
 
+import am.rockstars.enums.HeaderChildElementType;
 import am.rockstars.enums.HeaderChildType;
 import am.rockstars.enums.HeaderType;
 import lombok.Getter;
@@ -26,28 +27,18 @@ public class HeaderResponse extends AbstractHeaderResponse {
 
         private HeaderChildType type;
 
-        private List<HeaderChildNodeResponse> children;
+        private List<HeaderChildElementResponse> children;
 
         @Getter
         @Setter
         @ToString
-        public static class HeaderChildNodeResponse extends AbstractHeaderResponse {
+        public static class HeaderChildElementResponse extends AbstractHeaderResponse {
 
             private String queryState;
 
-            private HeaderChildType type;
+            private HeaderChildElementType type;
         }
     }
 }
 
-@Getter
-@Setter
-@ToString
-abstract class AbstractHeaderResponse {
 
-    private String state;
-
-    private String name;
-
-    private String icon;
-}

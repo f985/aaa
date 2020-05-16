@@ -37,57 +37,57 @@ public class HeaderService {
         return mapper.map(headerRepository.findAll());
     }
 
-    public List<EditHeaderResponse> getForEdit() {
+    public List<HeaderEditResponse> getEditResponse() {
         return mapper.mapToEdit(headerRepository.findAll());
     }
 
     @Transactional
-    public List<EditHeaderResponse> addHeader(final CreateHeaderRequest headerRequest) {
+    public List<HeaderEditResponse> addHeader(final CreateHeaderRequest headerRequest) {
         final Header header = mapper.map(headerRequest);
         headerRepository.save(header);
-        return this.getForEdit();
+        return this.getEditResponse();
     }
 
     @Transactional
-    public List<EditHeaderResponse> addHeaderChild(
+    public List<HeaderEditResponse> addHeaderChild(
             final CreateHeaderChildRequest childRequest,
             final Long headerId
     ) {
         return headerRepository.findById(headerId).map(header -> {
             createHeaderChild(childRequest, header);
-            return this.getForEdit();
+            return this.getEditResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find header by id -> %s", headerId)));
     }
 
     @Transactional
-    public List<EditHeaderResponse> addHeaderChildElement(
+    public List<HeaderEditResponse> addHeaderChildElement(
             final CreateHeaderChildElementRequest childRequest,
             final Long childId
     ) {
         return childRepository.findById(childId).map(header -> {
             createHeaderChildElement(childRequest, header);
-            return this.getForEdit();
+            return this.getEditResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find headerChild by id -> %s", childId)));
     }
 
-    public List<EditHeaderResponse> deleteHeader(final Long headerId) {
+    public List<HeaderEditResponse> deleteHeader(final Long headerId) {
         return headerRepository.findById(headerId).map(header -> {
             headerRepository.delete(header);
-            return this.getForEdit();
+            return this.getEditResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find header for delete by id  -> %s", headerId)));
     }
 
-    public List<EditHeaderResponse> deleteChild(final Long childId) {
+    public List<HeaderEditResponse> deleteChild(final Long childId) {
         return childRepository.findById(childId).map(child -> {
             childRepository.delete(child);
-            return this.getForEdit();
+            return this.getEditResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find header child for delete by id  -> %s", childId)));
     }
 
-    public List<EditHeaderResponse> deleteChildElement(final Long childElementId) {
+    public List<HeaderEditResponse> deleteChildElement(final Long childElementId) {
         return elementRepository.findById(childElementId).map(child -> {
             elementRepository.delete(child);
-            return this.getForEdit();
+            return this.getEditResponse();
         }).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Cannot find header child element for delete by id  -> %s", childElementId)));
     }

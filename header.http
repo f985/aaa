@@ -1,6 +1,6 @@
 ### Create header
 
-POST localhost:8082/api/header
+POST localhost:8082/api/admin/header
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ### Create header child
 
-POST localhost:8082/api/header/1/child
+POST localhost:8082/api/admin/header/1/child
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ### Create header element
 
-POST localhost:8082/api/header/child/1/element
+POST localhost:8082/api/admin/header/child/1/element
 Content-Type: application/json
 
 {

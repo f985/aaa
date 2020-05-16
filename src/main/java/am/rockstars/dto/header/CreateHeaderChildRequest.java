@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CreateHeaderChildRequest extends AbstractHeader {
+public class CreateHeaderChildRequest extends AbstractHeaderEditResponse {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private HeaderChildType type;

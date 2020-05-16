@@ -13,7 +13,7 @@ import java.util.List;
 public interface HeaderMapper {
     List<HeaderResponse> map(List<Header> headers);
 
-    List<EditHeaderResponse> mapToEdit(List<Header> headers);
+    List<HeaderEditResponse> mapToEdit(List<Header> headers);
 
     Header map(CreateHeaderRequest request);
 
