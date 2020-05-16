@@ -36,6 +36,12 @@ public class UserController {
         return ResponseEntity.ok(auth);
     }
 
+    @GetMapping(value = "/details")
+    public ResponseEntity<?> getUserDetails() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(userService.getUserResponseByEmail(auth.getName()));
+    }
+
     @GetMapping("/activate")
     public ResponseEntity<?> activateAccount(@RequestParam(value = "key") String key) {
         userService.activateRegistration(key);

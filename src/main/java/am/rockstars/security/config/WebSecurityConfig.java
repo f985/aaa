@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .httpBasic().disable()
-                .antMatcher("/api/**")
+                .antMatcher("/**")
                 .oauth2Login().authorizationEndpoint().baseUri("/api/oauth2/authorization").and()
                 .redirectionEndpoint().baseUri("/api/login/oauth2/code/*").and()
                 .successHandler((request, response, authentication) -> response.sendRedirect("/api/users/current-user")).and()
@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/users", "/api/users/activate", "/api/actuator/**", "/api/api/login/**", "/api/api/oauth2/", "/api/header").permitAll()
                 .antMatchers("/api/users/current-user").authenticated()
-                .antMatchers("/admin/products/*", "/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
     }
