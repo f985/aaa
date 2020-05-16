@@ -64,7 +64,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final List<Header> headers = Collections.singletonList(header);
         //Mock
         when(mapper.map(any(CreateHeaderRequest.class))).thenReturn(header);
-        when(mapper.mapToEdit(headers)).thenReturn(Collections.singletonList(response));
+        when(mapper.mapEditResponse(headers)).thenReturn(Collections.singletonList(response));
         when(headerRepository.save(any(Header.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         when(headerRepository.findAll()).thenReturn(headers);
         //Service call
@@ -73,7 +73,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         verify(headerRepository).save(header);
         verify(headerRepository).findAll();
         verify(mapper).map(request);
-        verify(mapper).mapToEdit(headers);
+        verify(mapper).mapEditResponse(headers);
         verifyNoMoreInteractions(headerRepository, mapper);
         //Asserts
         assertThat(responses).size().isEqualTo(1);
@@ -92,7 +92,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final List<Header> headers = Collections.singletonList(header);
         //Mock
         when(headerRepository.findAll()).thenReturn(headers);
-        when(mapper.mapToEdit(headers)).thenReturn(Collections.singletonList(response));
+        when(mapper.mapEditResponse(headers)).thenReturn(Collections.singletonList(response));
         when(mapper.map(any(CreateHeaderChildRequest.class))).thenReturn(headerChild);
         when(headerRepository.findById(1L)).thenReturn(Optional.ofNullable(header));
         when(childRepository.save(any(HeaderChild.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
@@ -103,7 +103,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         verify(headerRepository).findAll();
         verify(childRepository).save(headerChild);
         verify(mapper).map(request);
-        verify(mapper).mapToEdit(headers);
+        verify(mapper).mapEditResponse(headers);
         verifyNoMoreInteractions(headerRepository, childRepository, mapper);
         //Asserts
         assertThat(responses).size().isEqualTo(1);
@@ -123,7 +123,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final List<Header> headers = Collections.singletonList(header);
         //Mock
         when(headerRepository.findAll()).thenReturn(headers);
-        when(mapper.mapToEdit(headers)).thenReturn(Collections.singletonList(response));
+        when(mapper.mapEditResponse(headers)).thenReturn(Collections.singletonList(response));
         when(mapper.map(any(CreateHeaderChildElementRequest.class))).thenReturn(headerChildElement);
         when(childRepository.findById(1L)).thenReturn(Optional.ofNullable(headerChild));
         when(elementRepository.save(any(HeaderChildElement.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
@@ -134,7 +134,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         verify(headerRepository).findAll();
         verify(elementRepository).save(headerChildElement);
         verify(mapper).map(request);
-        verify(mapper).mapToEdit(headers);
+        verify(mapper).mapEditResponse(headers);
         verifyNoMoreInteractions(headerRepository, childRepository, mapper);
         //Asserts
         assertThat(responses).size().isEqualTo(1);

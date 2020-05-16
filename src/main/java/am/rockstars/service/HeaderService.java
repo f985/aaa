@@ -38,7 +38,7 @@ public class HeaderService {
     }
 
     public List<HeaderEditResponse> getEditResponse() {
-        return mapper.mapToEdit(headerRepository.findAll());
+        return mapper.mapEditResponse(headerRepository.findAll());
     }
 
     @Transactional
