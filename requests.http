@@ -6,8 +6,8 @@ Content-Type: application/json
 {
   "firstName": "Artur",
   "lastName": "Vahanyan",
-  "email": "artur.vaganyan96@gmail.com",
-  "password": "a1"
+  "email": "artur.vaganyan96@gmail.caom",
+  "password": "1234567"
 }
 
 ### Activate User
