@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -38,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable()
                 .formLogin().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .httpBasic().disable()
                 .antMatcher("/api/**")
                 .oauth2Login().authorizationEndpoint().baseUri("/api/oauth2/authorization").and()
@@ -49,9 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/users", "/users/activate", "/actuator/**", "/api/login/**", "/api/oauth2/").permitAll()
-                .antMatchers("/users/current-user", "/users/details").authenticated()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/api/users/**", "/api/users/activate", "/actuator/**", "/api/login/**", "/api/oauth2/**").permitAll()
+                .antMatchers("/api/users/current-user", "/api/users/details").authenticated()
+                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
     }
@@ -83,7 +81,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                        "/configuration/security", "/swagger-ui.html", "/webjars/**");
         }
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
