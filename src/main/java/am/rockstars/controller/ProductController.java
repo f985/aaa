@@ -11,12 +11,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/products")
+@RequestMapping("/api")
 public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping("/admin/products")
     @ResponseStatus(HttpStatus.CREATED)
     public void createProduct(@Valid @RequestBody final ProductPayload productPayload) {
         productService.createProduct(SecurityUtils.getCurrentUserUsername(), productPayload);

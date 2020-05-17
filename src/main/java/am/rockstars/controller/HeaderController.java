@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class HeaderController {
 
     private final HeaderService headerService;
@@ -17,32 +17,32 @@ public class HeaderController {
         this.headerService = headerService;
     }
 
-    @GetMapping("api/header")
+    @GetMapping("/header")
     public ResponseEntity<?> get() {
         return ResponseEntity.ok(headerService.get());
     }
 
-    @DeleteMapping("admin/header/{headerId}")
+    @DeleteMapping("/admin/header/{headerId}")
     public ResponseEntity<?> delete(@PathVariable final Long headerId) {
         return ResponseEntity.ok(headerService.deleteHeader(headerId));
     }
 
-    @DeleteMapping("admin/header/child/{childId}")
+    @DeleteMapping("/admin/header/child/{childId}")
     public ResponseEntity<?> deleteChild(@PathVariable final Long childId) {
         return ResponseEntity.ok(headerService.deleteChild(childId));
     }
 
-    @DeleteMapping("admin/header/child/element/{childElementId}")
+    @DeleteMapping("/admin/header/child/element/{childElementId}")
     public ResponseEntity<?> deleteChildElement(@PathVariable final Long childElementId) {
         return ResponseEntity.ok(headerService.deleteChildElement(childElementId));
     }
 
-    @GetMapping("admin/header/edit-response")
+    @GetMapping("/admin/header/edit-response")
     public ResponseEntity<?> getEdit() {
         return ResponseEntity.ok(headerService.getEditResponse());
     }
 
-    @PostMapping("admin/header/")
+    @PostMapping("/admin/header/")
     public ResponseEntity<?> add(@RequestBody CreateHeaderRequest request) {
         return ResponseEntity.ok(headerService.addHeader(request));
     }
