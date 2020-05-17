@@ -7,7 +7,6 @@ import am.rockstars.mapper.AddressMapper;
 import am.rockstars.repository.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -30,7 +29,6 @@ public class AddressService {
         Assert.notNull(payload, "Address payload should not be null");
         log.debug("Creating address for provided payload '{}' username {}", payload, username);
         final Address address = addressMapper.map(payload);
-        BeanUtils.copyProperties(payload, address);
         address.setUser(userService.getById(payload.getUserId()));
         address.setCreatedBy(userService.getUserByEmail(username));
         address.setCreatedAt(LocalDateTime.now());

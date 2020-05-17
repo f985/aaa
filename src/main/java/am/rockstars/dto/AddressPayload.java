@@ -38,6 +38,7 @@ public class AddressPayload {
     @NotNull
     private String country;
 
+    @NotNull
     private long userId;
 
 }
