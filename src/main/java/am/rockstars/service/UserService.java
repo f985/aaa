@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -67,6 +68,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
+    public User getById(final long id) {
+        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
     public UserResponse getUserResponseByEmail(final String email) {
         final User userEntity = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         return userMapper.mapToUserResponse(userEntity);
@@ -109,7 +114,7 @@ public class UserService implements UserDetailsService {
         user.setResetKey(UUID.randomUUID().toString());
         user.setResetDate(Instant.now());
         userRepository.save(user);
-        //(mailService).sendPasswordResetMail(user.getEmail);
+//        (mailService).sendPasswordResetMail(user.getEmail);
         log.debug("Successfully created password reset mail with for User with email: {}", user);
     }
 

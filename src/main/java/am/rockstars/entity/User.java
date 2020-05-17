@@ -53,6 +53,8 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<Order> addresses = new HashSet<>();
 
     @Column
     private String resetKey;
