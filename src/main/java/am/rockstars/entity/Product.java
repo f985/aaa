@@ -38,4 +38,5 @@ public class Product extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdby", updatable = false)
     private User createdBy;
+
 }

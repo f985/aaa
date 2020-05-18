@@ -9,10 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JWTAuthenticationService {
@@ -64,12 +61,12 @@ public class JWTAuthenticationService {
 
             String username = claims.getSubject();
 
-            @SuppressWarnings("unchecked") final List<String> authoritiesClaim = (List<String>) claims.get(AUTHORITIES);
+            @SuppressWarnings("unchecked") final Optional<List<String>> authoritiesClaim = Optional.ofNullable((List<String>) claims.get(AUTHORITIES));
 
-            final List<SimpleGrantedAuthority> authorities = authoritiesClaim
-                    .stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
+            final List<SimpleGrantedAuthority> authorities = authoritiesClaim.orElse(List.of())
+                                                                             .stream()
+                                                                             .map(SimpleGrantedAuthority::new)
+                                                                             .collect(Collectors.toList());
 
             return username != null ?
                     new UsernamePasswordAuthenticationToken(username, null, authorities) :
