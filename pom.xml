@@ -25,6 +25,8 @@
         <easy.random.version>4.2.0</easy.random.version>
         <assertj.version>3.16.0</assertj.version>
         <java.melody.version>1.82.0</java.melody.version>
+        <test.containers.version>1.14.1</test.containers.version>
+        <test.containers.postgresql.version>1.10.6</test.containers.postgresql.version>
     </properties>
 
     <dependencies>
@@ -128,13 +130,13 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.14.1</version>
+            <version>${test.containers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.10.6</version>
+            <version>${test.containers.postgresql.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -168,7 +170,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.2.5.RELEASE</version>
                 <executions>
                     <execution>
                         <goals>
@@ -179,5 +180,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

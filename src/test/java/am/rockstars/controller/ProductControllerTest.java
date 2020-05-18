@@ -52,8 +52,5 @@ class ProductControllerTest extends AbstractControllerTest  {
                .andExpect(jsonPath("$.type").value(ProductType.WINE.name()))
                .andExpect(jsonPath("$.name").value("Kataro"))
                .andExpect(jsonPath("$.price").value(10.0));
-        //Verify
-
-        //Asserts
     }
 }
