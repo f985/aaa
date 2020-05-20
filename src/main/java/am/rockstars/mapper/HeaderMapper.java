@@ -1,7 +1,6 @@
 package am.rockstars.mapper;
 
 import am.rockstars.dto.header.*;
-import am.rockstars.entity.Header;
 import am.rockstars.entity.HeaderChild;
 import am.rockstars.entity.HeaderChildElement;
 import org.mapstruct.Mapper;
@@ -11,11 +10,11 @@ import java.util.List;
 
 @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, componentModel = "spring")
 public interface HeaderMapper {
-    List<HeaderResponse> map(List<Header> headers);
+    List<Header> map(List<am.rockstars.entity.Header> headers);
 
-    List<HeaderEditResponse> mapEditResponse(List<Header> headers);
+    List<HeaderEdit> mapEditResponse(List<am.rockstars.entity.Header> headers);
 
-    Header map(CreateHeaderRequest request);
+    am.rockstars.entity.Header map(CreateHeaderRequest request);
 
     HeaderChild map(CreateHeaderChildRequest request);
 

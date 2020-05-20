@@ -3,7 +3,7 @@ package am.rockstars.service;
 import am.rockstars.dto.header.CreateHeaderChildElementRequest;
 import am.rockstars.dto.header.CreateHeaderChildRequest;
 import am.rockstars.dto.header.CreateHeaderRequest;
-import am.rockstars.dto.header.HeaderEditResponse;
+import am.rockstars.dto.header.HeaderEdit;
 import am.rockstars.entity.Header;
 import am.rockstars.entity.HeaderChild;
 import am.rockstars.entity.HeaderChildElement;
@@ -59,7 +59,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         //Test data
         final CreateHeaderRequest request = easyRandom.nextObject(CreateHeaderRequest.class);
         final Header header = easyRandom.nextObject(Header.class);
-        HeaderEditResponse response = new HeaderEditResponse();
+        HeaderEdit response = new HeaderEdit();
         response.setType(HeaderType.LINK);
         final List<Header> headers = Collections.singletonList(header);
         //Mock
@@ -68,7 +68,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         when(headerRepository.save(any(Header.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         when(headerRepository.findAll()).thenReturn(headers);
         //Service call
-        final List<HeaderEditResponse> responses = headerService.addHeader(request);
+        final List<HeaderEdit> responses = headerService.addHeader(request);
         //Verify
         verify(headerRepository).save(header);
         verify(headerRepository).findAll();
@@ -87,7 +87,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final CreateHeaderChildRequest request = easyRandom.nextObject(CreateHeaderChildRequest.class);
         final Header header = easyRandom.nextObject(Header.class);
         final HeaderChild headerChild = easyRandom.nextObject(HeaderChild.class);
-        final HeaderEditResponse response = new HeaderEditResponse();
+        final HeaderEdit response = new HeaderEdit();
         response.setType(HeaderType.LINK);
         final List<Header> headers = Collections.singletonList(header);
         //Mock
@@ -97,7 +97,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         when(headerRepository.findById(1L)).thenReturn(Optional.ofNullable(header));
         when(childRepository.save(any(HeaderChild.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         //Service call
-        final List<HeaderEditResponse> responses = headerService.addHeaderChild(request, 1L);
+        final List<HeaderEdit> responses = headerService.addHeaderChild(request, 1L);
         //Verify
         verify(headerRepository).findById(1L);
         verify(headerRepository).findAll();
@@ -118,7 +118,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final Header header = easyRandom.nextObject(Header.class);
         final HeaderChild headerChild = easyRandom.nextObject(HeaderChild.class);
         final HeaderChildElement headerChildElement = easyRandom.nextObject(HeaderChildElement.class);
-        final HeaderEditResponse response = new HeaderEditResponse();
+        final HeaderEdit response = new HeaderEdit();
         response.setType(HeaderType.LINK);
         final List<Header> headers = Collections.singletonList(header);
         //Mock
@@ -128,7 +128,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         when(childRepository.findById(1L)).thenReturn(Optional.ofNullable(headerChild));
         when(elementRepository.save(any(HeaderChildElement.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         //Service call
-        final List<HeaderEditResponse> responses = headerService.addHeaderChildElement(request, 1L);
+        final List<HeaderEdit> responses = headerService.addHeaderChildElement(request, 1L);
         //Verify
         verify(childRepository).findById(1L);
         verify(headerRepository).findAll();

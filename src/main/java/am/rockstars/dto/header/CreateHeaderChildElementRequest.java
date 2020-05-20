@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CreateHeaderChildElementRequest extends AbstractHeaderEditResponse {
+public class CreateHeaderChildElementRequest extends AbstractHeaderEdit {
 
     private String queryState;
 

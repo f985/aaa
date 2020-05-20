@@ -12,27 +12,27 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class HeaderResponse extends AbstractHeaderResponse {
+public class Header extends AbstractHeader {
 
     private Boolean mega;
 
     private HeaderType type;
 
-    private List<HeaderChildResponse> children;
+    private List<HeaderChild> children;
 
     @Getter
     @Setter
     @ToString
-    public static class HeaderChildResponse extends AbstractHeaderResponse {
+    public static class HeaderChild extends AbstractHeader {
 
         private HeaderChildType type;
 
-        private List<HeaderChildElementResponse> children;
+        private List<HeaderChildElement> children;
 
         @Getter
         @Setter
         @ToString
-        public static class HeaderChildElementResponse extends AbstractHeaderResponse {
+        public static class HeaderChildElement extends AbstractHeader {
 
             private String queryState;
 

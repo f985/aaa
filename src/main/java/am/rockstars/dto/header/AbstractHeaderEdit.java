@@ -7,11 +7,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-abstract class AbstractHeaderResponse {
-
-    private String state;
-
-    private String name;
-
-    private String icon;
+abstract class AbstractHeaderEdit extends AbstractHeader {
+    private Long id;
 }
