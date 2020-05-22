@@ -1,6 +1,6 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractHeaderEntity;
+import am.rockstars.entity.base.BaseHeaderEntity;
 import am.rockstars.enums.HeaderType;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "header")
-public class Header extends AbstractHeaderEntity {
+public class Header extends BaseHeaderEntity {
 
     private Boolean mega;
 

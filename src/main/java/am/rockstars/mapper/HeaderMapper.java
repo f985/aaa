@@ -1,6 +1,10 @@
 package am.rockstars.mapper;
 
 import am.rockstars.dto.header.*;
+import am.rockstars.dto.header.edit.CreateHeaderChildElementRequest;
+import am.rockstars.dto.header.edit.CreateHeaderChildRequest;
+import am.rockstars.dto.header.edit.CreateHeaderRequest;
+import am.rockstars.dto.header.edit.HeaderEdit;
 import am.rockstars.entity.HeaderChild;
 import am.rockstars.entity.HeaderChildElement;
 import org.mapstruct.Mapper;

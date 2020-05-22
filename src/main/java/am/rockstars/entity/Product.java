@@ -1,13 +1,11 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import am.rockstars.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -17,7 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "product")
-public class Product extends AbstractEntity {
+public class Product extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;

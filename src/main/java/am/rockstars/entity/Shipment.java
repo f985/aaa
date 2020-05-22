@@ -1,13 +1,12 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import am.rockstars.enums.ShipmentType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 /**
@@ -17,7 +16,7 @@ import java.time.ZonedDateTime;
 @Setter
 @Entity
 @Table(name = "shipment")
-public class Shipment extends AbstractEntity {
+public class Shipment extends BaseEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)

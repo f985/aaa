@@ -1,9 +1,9 @@
 package am.rockstars.service;
 
-import am.rockstars.dto.header.CreateHeaderChildElementRequest;
-import am.rockstars.dto.header.CreateHeaderChildRequest;
-import am.rockstars.dto.header.CreateHeaderRequest;
-import am.rockstars.dto.header.HeaderEdit;
+import am.rockstars.dto.header.edit.CreateHeaderChildElementRequest;
+import am.rockstars.dto.header.edit.CreateHeaderChildRequest;
+import am.rockstars.dto.header.edit.CreateHeaderRequest;
+import am.rockstars.dto.header.edit.HeaderEdit;
 import am.rockstars.entity.Header;
 import am.rockstars.entity.HeaderChild;
 import am.rockstars.entity.HeaderChildElement;

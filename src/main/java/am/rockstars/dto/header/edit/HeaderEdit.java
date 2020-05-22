@@ -1,7 +1,5 @@
-package am.rockstars.dto.header;
+package am.rockstars.dto.header.edit;
 
-import am.rockstars.enums.HeaderChildElementType;
-import am.rockstars.enums.HeaderChildType;
 import am.rockstars.enums.HeaderType;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,15 +10,14 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Header extends BaseHeader {
+public class HeaderEdit extends BaseHeaderEdit {
 
     private Boolean mega;
 
     private HeaderType type;
 
-    private List<HeaderChild> children;
+    private List<HeaderChildEdit> children;
 
 
 }
-
 

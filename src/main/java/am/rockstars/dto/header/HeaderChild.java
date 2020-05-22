@@ -1,17 +1,20 @@
 package am.rockstars.dto.header;
 
 import am.rockstars.enums.HeaderChildType;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-public class CreateHeaderChildRequest extends AbstractHeaderEdit {
+public class HeaderChild extends BaseHeader {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private HeaderChildType type;
+
+    private List<HeaderChildElement> children;
+
 
 }

@@ -1,8 +1,8 @@
 package am.rockstars.controller;
 
-import am.rockstars.dto.header.CreateHeaderChildElementRequest;
-import am.rockstars.dto.header.CreateHeaderChildRequest;
-import am.rockstars.dto.header.CreateHeaderRequest;
+import am.rockstars.dto.header.edit.CreateHeaderChildElementRequest;
+import am.rockstars.dto.header.edit.CreateHeaderChildRequest;
+import am.rockstars.dto.header.edit.CreateHeaderRequest;
 import am.rockstars.service.HeaderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class HeaderController {
 
     @GetMapping("/header")
     public ResponseEntity<?> get() {
-        return ResponseEntity.ok(headerService.get());
+        return ResponseEntity.ok(headerService.getAll());
     }
 
     @DeleteMapping("/admin/header/{headerId}")
@@ -37,9 +37,9 @@ public class HeaderController {
         return ResponseEntity.ok(headerService.deleteChildElement(childElementId));
     }
 
-    @GetMapping("/admin/header/edit-response")
-    public ResponseEntity<?> getEdit() {
-        return ResponseEntity.ok(headerService.getEditResponse());
+    @GetMapping("/admin/header/edit")
+    public ResponseEntity<?> getEditableHeaders() {
+        return ResponseEntity.ok(headerService.getEditHeaderResponse());
     }
 
     @PostMapping("/admin/header/")

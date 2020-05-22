@@ -1,6 +1,6 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractHeaderEntity;
+import am.rockstars.entity.base.BaseHeaderEntity;
 import am.rockstars.enums.HeaderChildType;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "headerChild")
-public class HeaderChild extends AbstractHeaderEntity {
+@Table(name = "header_child")
+public class HeaderChild extends BaseHeaderEntity {
 
     @Enumerated(EnumType.STRING)
     private HeaderChildType type;

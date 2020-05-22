@@ -1,6 +1,10 @@
 package am.rockstars.service;
 
 import am.rockstars.dto.header.*;
+import am.rockstars.dto.header.edit.CreateHeaderChildElementRequest;
+import am.rockstars.dto.header.edit.CreateHeaderChildRequest;
+import am.rockstars.dto.header.edit.CreateHeaderRequest;
+import am.rockstars.dto.header.edit.HeaderEdit;
 import am.rockstars.entity.HeaderChild;
 import am.rockstars.entity.HeaderChildElement;
 import am.rockstars.mapper.HeaderMapper;
@@ -32,11 +36,11 @@ public class HeaderService {
         this.mapper = mapper;
     }
 
-    public List<Header> get() {
+    public List<Header> getAll() {
         return mapper.map(headerRepository.findAll());
     }
 
-    public List<HeaderEdit> getEditResponse() {
+    public List<HeaderEdit> getEditHeaderResponse() {
         return mapper.mapEditResponse(headerRepository.findAll());
     }
 
@@ -44,7 +48,7 @@ public class HeaderService {
     public List<HeaderEdit> addHeader(final CreateHeaderRequest headerRequest) {
         final am.rockstars.entity.Header header = mapper.map(headerRequest);
         headerRepository.save(header);
-        return this.getEditResponse();
+        return this.getEditHeaderResponse();
     }
 
     @Transactional
@@ -54,7 +58,7 @@ public class HeaderService {
     ) {
         return headerRepository.findById(headerId).map(header -> {
             createHeaderChild(childRequest, header);
-            return this.getEditResponse();
+            return this.getEditHeaderResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find header by id -> %s", headerId)));
     }
 
@@ -65,28 +69,28 @@ public class HeaderService {
     ) {
         return childRepository.findById(childId).map(header -> {
             createHeaderChildElement(childRequest, header);
-            return this.getEditResponse();
+            return this.getEditHeaderResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find headerChild by id -> %s", childId)));
     }
 
     public List<HeaderEdit> deleteHeader(final Long headerId) {
         return headerRepository.findById(headerId).map(header -> {
             headerRepository.delete(header);
-            return this.getEditResponse();
+            return this.getEditHeaderResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find header for delete by id  -> %s", headerId)));
     }
 
     public List<HeaderEdit> deleteChild(final Long childId) {
         return childRepository.findById(childId).map(child -> {
             childRepository.delete(child);
-            return this.getEditResponse();
+            return this.getEditHeaderResponse();
         }).orElseThrow(() -> new EntityNotFoundException(String.format("Cannot find header child for delete by id  -> %s", childId)));
     }
 
     public List<HeaderEdit> deleteChildElement(final Long childElementId) {
         return elementRepository.findById(childElementId).map(child -> {
             elementRepository.delete(child);
-            return this.getEditResponse();
+            return this.getEditHeaderResponse();
         }).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Cannot find header child element for delete by id  -> %s", childElementId)));
     }

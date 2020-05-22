@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-abstract class AbstractHeader {
+public abstract class BaseHeader {
 
     private String state;
 

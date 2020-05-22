@@ -1,6 +1,6 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import am.rockstars.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
+public class User extends BaseEntity {
 
     @Column
     private String email;
