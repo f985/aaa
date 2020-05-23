@@ -2,8 +2,10 @@ package am.rockstars.entity;
 
 import am.rockstars.entity.base.BaseEntity;
 import am.rockstars.enums.UserRole;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -15,6 +17,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
+@ToString(exclude = "orders")
 public class User extends BaseEntity {
 
     @Column
@@ -30,7 +33,7 @@ public class User extends BaseEntity {
     private String lastName;
 
     @Column(nullable = false)
-    private boolean activated = false;
+    private boolean activated;
 
     @Column
     private String activationKey;
@@ -53,10 +56,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
-
     @Column
     private String resetKey;
 
     @Column
-    private Instant resetDate = null;
+    private Instant resetDate;
 }

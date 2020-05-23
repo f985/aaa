@@ -36,4 +36,5 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdby", updatable = false)
     private User createdBy;
+
 }
