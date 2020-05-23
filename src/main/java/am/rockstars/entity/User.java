@@ -4,6 +4,7 @@ import am.rockstars.entity.base.AbstractEntity;
 import am.rockstars.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
+@ToString(exclude = "orders")
 public class User extends AbstractEntity {
 
     @Column
@@ -30,7 +32,7 @@ public class User extends AbstractEntity {
     private String lastName;
 
     @Column(nullable = false)
-    private boolean activated = false;
+    private boolean activated;
 
     @Column
     private String activationKey;
@@ -53,12 +55,9 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Order> addresses = new HashSet<>();
-
     @Column
     private String resetKey;
 
     @Column
-    private Instant resetDate = null;
+    private Instant resetDate;
 }

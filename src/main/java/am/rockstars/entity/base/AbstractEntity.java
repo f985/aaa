@@ -24,7 +24,7 @@ public abstract class AbstractEntity implements Serializable {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
     private LocalDateTime updatedAt;
 }

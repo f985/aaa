@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/users/**", "/api/users/activate", "/actuator/**", "/api/login/**", "/api/oauth2/**").permitAll()
                 .antMatchers("/api/users/current-user").authenticated()
-                .antMatchers("/api/products/*").hasAuthority("ADMIN")
+                .antMatchers("/api/products/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
     }

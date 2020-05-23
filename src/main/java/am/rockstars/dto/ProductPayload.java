@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -18,14 +19,18 @@ import java.math.BigDecimal;
 @UniqueProduct
 public class ProductPayload {
 
+    @NotBlank(message = "Product name should not be empty")
     private String name;
 
+    @NotNull(message = "Product type should not be null")
     private ProductType type;
 
-    private String quantity;
+    @Positive(message = "Product available quantity should be positive value")
+    private Long availableQuantity;
 
     private String description;
 
     @Positive(message = "Product price should be positive value")
     private BigDecimal price;
+
 }
