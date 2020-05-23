@@ -25,8 +25,8 @@ public class ProductPayload {
     @NotNull(message = "Product type should not be null")
     private ProductType type;
 
-    @Positive(message = "Product quantity should be positive value")
-    private String quantity;
+    @Positive(message = "Product available quantity should be positive value")
+    private Long availableQuantity;
 
     private String description;
 

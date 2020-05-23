@@ -1,56 +1,65 @@
 package am.rockstars.controller;
 
-import am.rockstars.entity.Product;
-import am.rockstars.entity.User;
+import am.rockstars.dto.ProductPayload;
 import am.rockstars.enums.ProductType;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.http.MediaType;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
+import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-class ProductControllerTest extends AbstractControllerTest  {
+class ProductControllerTest extends AbstractControllerTest {
 
     @ClassRule
     public static PostgreSQLContainer<PostgreSqlContainer> postgreSQLContainer = PostgreSqlContainer.getInstance();
 
-    @DisplayName("Should create product for provided json payload")
+    @DisplayName("Should retrieve product by id")
     @Test
-    @WithMockUser(authorities = "ADMIN")
-    @Sql("/test_data.sql")
-    void createProduct() throws Exception {
+    void findProductById() throws Exception {
         //Test data
-        final Product product = new Product();
-        product.setAvailableQuantity(10L);
-        product.setDescription("Test product");
-        product.setName("White Wine");
-        product.setType(ProductType.WINE);
-        product.setPrice(BigDecimal.TEN);
-        product.setId(1L);
-        final User user = new User();
-        user.setId(10L);
-        product.setCreatedBy(user);
-        product.setCreatedAt(LocalDateTime.now());
-        //API call
-        mockMvc.perform(get("/api/products/{productId}", 1L))
+        final ProductPayload productPayload = ProductPayload.builder()
+                                                            .name("Vanardi")
+                                                            .description("Test product")
+                                                            .availableQuantity(10L)
+                                                            .price(BigDecimal.TEN)
+                                                            .type(ProductType.WINE)
+                                                            .build();
+        //API calls
+        mockMvc.perform(post("/api/products/")
+                .content(mapper.writeValueAsString(productPayload))
+                .contentType(MediaType.APPLICATION_JSON))
                .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.id").value(1))
-               .andExpect(jsonPath("$.type").value(ProductType.WINE.name()))
-               .andExpect(jsonPath("$.name").value("Kataro"))
-               .andExpect(jsonPath("$.price").value(10.0));
+               .andExpect(status().isCreated());
+        mockMvc.perform(get("/api/products/{productId}", 2L))
+               .andDo(print())
+               .andExpect(matchAll(
+                       jsonPath("$.id").value(2),
+                       jsonPath("$.type").value(productPayload.getType().name()),
+                       jsonPath("$.name").value(productPayload.getName()),
+                       jsonPath("$.price").isNumber()));
+
+    }
+
+    @DisplayName("Should retrieve product with provided name")
+    @Test
+    void findProduct() throws Exception {
+        //API call
+        mockMvc.perform(get("/api/products").queryParam("name", "Kataro"))
+               .andDo(print())
+               .andExpect((matchAll(
+                       status().isOk(),
+                       jsonPath("$.content[0].name").value("Kataro"),
+                       jsonPath("$.content[0].id").value(1),
+                       jsonPath("$.content[0].type").value(ProductType.WINE.name()),
+                       jsonPath("$.content[0].price").isNumber())));
     }
 }
