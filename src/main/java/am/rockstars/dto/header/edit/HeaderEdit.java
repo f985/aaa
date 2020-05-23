@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 public class HeaderEdit extends BaseHeaderEdit {
 
-    private Boolean mega;
+    private boolean mega;
 
     private HeaderType type;
 

@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "header")
 public class Header extends BaseHeaderEntity {
 
-    private Boolean mega;
+    private boolean mega;
 
     @Enumerated(EnumType.STRING)
     private HeaderType type;

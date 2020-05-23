@@ -27,8 +27,9 @@ Content-Type: application/json
 
 ### Create header element
 
-POST localhost:8082/admin/header/child/1/element
+POST localhost:8082/api/admin/header/child/1/element
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlkIjoxLCJleHAiOjE1OTAyNjkyMzB9.cw6rGi59CaZYYHq5RZyzmsKZW5d25MzEvOA4skiCVoWH_Of8_YHaLWtmYUwVLqwir0xwQErvnh5n5oJ-DFmb4Q
 
 {
   "id": 1,
@@ -37,3 +38,6 @@ Content-Type: application/json
   "icon": "zxcssd",
   "type": "link"
 }
+
+### Get
+

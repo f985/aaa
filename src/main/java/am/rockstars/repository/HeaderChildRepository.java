@@ -1,6 +1,5 @@
 package am.rockstars.repository;
 
-import am.rockstars.entity.Header;
 import am.rockstars.entity.HeaderChild;
 import org.springframework.data.jpa.repository.JpaRepository;
 

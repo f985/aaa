@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "header_child")
+@Table(name = "headerchild")
 public class HeaderChild extends BaseHeaderEntity {
 
     @Enumerated(EnumType.STRING)

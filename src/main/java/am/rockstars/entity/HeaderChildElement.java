@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "header_child_element")
+@Table(name = "headerchildelement")
 public class HeaderChildElement extends BaseHeaderEntity {
 
     @ManyToOne
