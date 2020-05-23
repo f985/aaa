@@ -26,6 +26,11 @@ Content-Type: application/json
   "password": "1234567"
 }
 
+
+### GET products
+GET localhost:8082/api/products?sort=id,desc
+Authorization:  Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlkIjoxLCJleHAiOjE1OTAwOTE2NzZ9.D6BM3o45LBBDPbnaNNfxzqEd-lhLC0WYRe0vyF-grth4XiX1IfgbTNT9VtiUYwo0HP_FubBlRNzCM1WbJAbyZw
+
 ### Get User Informetion
 
 GET localhost:8082/api/users/current-user

@@ -16,7 +16,7 @@ public class UniqueProductValidator implements ConstraintValidator<UniqueProduct
     public boolean isValid(final ProductPayload value, final ConstraintValidatorContext context) {
         if (productRepository.findByNameAndType(value.getName(), value.getType()).isPresent()) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Product type and title should be unique");
+            context.buildConstraintViolationWithTemplate("Product type and title should be unique").addConstraintViolation();
             return false;
         }
         return true;
