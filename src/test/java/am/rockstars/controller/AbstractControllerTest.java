@@ -1,5 +1,6 @@
 package am.rockstars.controller;
 
+import am.rockstars.NverApp;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -11,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest
+@SpringBootTestg
 @AutoConfigureMockMvc
 @WithMockUser(username = "artur.vaganyan96@gmail.com", authorities = "ADMIN")
 @Transactional

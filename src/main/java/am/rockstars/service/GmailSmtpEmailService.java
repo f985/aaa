@@ -2,15 +2,15 @@ package am.rockstars.service;
 
 import am.rockstars.dto.EmailPayload;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class GmailSmtpEmailService implements EmailService {
 
-    private final JavaMailSender javaMailSender;
+    private final MailSender mailSender;
 
     @Override
     public void send(final EmailPayload payload) {
@@ -18,6 +18,6 @@ public class GmailSmtpEmailService implements EmailService {
         message.setSubject(payload.getSubject());
         message.setText(payload.getContent());
         message.setTo(payload.getRecipients().toArray(new String[0]));
-        javaMailSender.send(message);
+        mailSender.send(message);
     }
 }
