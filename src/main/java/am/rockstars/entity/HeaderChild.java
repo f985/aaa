@@ -21,5 +21,6 @@ public class HeaderChild extends BaseHeaderEntity {
     private Header header;
 
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    @OrderBy("orderNumber asc")
     private List<HeaderChildElement> children;
 }

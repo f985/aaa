@@ -16,4 +16,8 @@ public class BaseHeaderEntity extends BaseEntity {
 
     private String icon;
 
+    private Integer orderNumber;
+
+    private boolean disabled;
+
 }

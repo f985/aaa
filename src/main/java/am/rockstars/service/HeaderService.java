@@ -12,6 +12,7 @@ import am.rockstars.repository.HeaderChildElementRepository;
 import am.rockstars.repository.HeaderChildRepository;
 import am.rockstars.repository.HeaderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -43,11 +44,13 @@ public class HeaderService {
 
     public List<Header> getAll() {
         log.debug("Requested to get all headers");
-        return mapper.map(headerRepository.findAll());
+        return mapper.map(headerRepository.findAll(getSortting()));
     }
 
     public List<HeaderEdit> getEditHeaderResponse() {
-        return mapper.mapEditResponse(headerRepository.findAll());
+        log.debug("Requested to get all headers for edit");
+        final Sort sort = Sort.by(Sort.Direction.ASC, "orderNumber");
+        return mapper.mapEditResponse(headerRepository.findAll(getSortting()));
     }
 
     @Transactional
@@ -132,5 +135,9 @@ public class HeaderService {
         final HeaderChildElement element = mapper.map(elementRequest);
         element.setChild(child);
         elementRepository.save(element);
+    }
+
+    private Sort getSortting() {
+        return Sort.by(Sort.Direction.ASC, "orderNumber");
     }
 }

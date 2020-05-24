@@ -10,4 +10,8 @@ import lombok.ToString;
 @ToString
 abstract class BaseHeaderEdit extends BaseHeader {
     private Long id;
+
+    private Integer orderNumber;
+
+    private boolean disabled;
 }
