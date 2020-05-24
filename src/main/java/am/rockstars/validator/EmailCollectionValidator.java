@@ -13,7 +13,7 @@ public class EmailCollectionValidator implements ConstraintValidator<ValidEmailC
         if (value == null) {
             return false;
         }
-        EmailValidator validator = new EmailValidator();
+        var validator = new EmailValidator();
         for (String s : value) {
             if (!validator.isValid(s, context) || s.isEmpty()) {
                 return false;
