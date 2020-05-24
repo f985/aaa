@@ -33,6 +33,18 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @Transactional
+    public void updateProduct(final Long productId, final ProductPayload payload) {
+        final Product product = findById(productId);
+        BeanUtils.copyProperties(payload, product);
+        productRepository.save(product);
+    }
+
+    @Transactional
+    public void removeProduct(final Long productId) {
+        productRepository.delete(findById(productId));
+    }
+
     public Product findById(final Long id) {
         Assert.notNull(id, "Id should not be null");
         log.debug("Retrieving product by id '{}'", id);

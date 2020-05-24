@@ -5,17 +5,13 @@ import am.rockstars.entity.Product;
 import am.rockstars.entity.User;
 import am.rockstars.exception.ProductNotFoundForIdException;
 import am.rockstars.repository.ProductRepository;
-import am.rockstars.repository.UserRepository;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Spy;
 
 import java.util.Optional;
 
@@ -25,11 +21,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@Execution(ExecutionMode.CONCURRENT)
 public class ProductServiceTest extends AbstractServiceUnitTest {
 
     @InjectMocks
+    @Spy
     private ProductService productService;
 
     @Mock
@@ -56,7 +51,7 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
         verify(productRepository).save(productArgumentCaptor.capture());
         verifyNoMoreInteractions(userService, productRepository);
         //Asserts
-        assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload, "availableQuantity", "createdBy", "id", "createdAt", "updatedAt");
+        assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload,  "createdBy", "id", "createdAt", "updatedAt");
     }
 
     @DisplayName("Should throw exception when product payload is null")
@@ -88,5 +83,40 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
             when(productRepository.findById(eq(1L))).thenReturn(Optional.empty());
             productService.findById(1L);
         }, "Should throw ProductNotFoundForIdException");
+    }
+
+    @DisplayName("Should update product for provided payload")
+    @Test
+    void updateProduct() {
+        //Test data
+        final EasyRandom easyRandom = new EasyRandom();
+        final ProductPayload productPayload = easyRandom.nextObject(ProductPayload.class);
+        //Mock
+        doReturn(new Product()).when(productService).findById(eq(1L));
+        when(productRepository.save(any(Product.class))).then(invocation -> invocation.getArgument(0));
+        //Service call
+        productService.updateProduct(1L, productPayload);
+        //Verify
+        verify(productService).findById(eq(1L));
+        verify(productService).updateProduct(anyLong(), any(ProductPayload.class));
+        final ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(productArgumentCaptor.capture());
+        verifyNoMoreInteractions(productService, productRepository);
+        //Asserts
+        assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload, "createdBy", "id", "createdAt", "updatedAt");
+    }
+
+    @DisplayName("Should remove product for provided id")
+    @Test
+    void deleteProduct() {
+        //Mock
+        doReturn(new Product()).when(productService).findById(eq(1L));
+        //Service call
+        productService.removeProduct(1L);
+        //Verify
+        verify(productService).findById(eq(1L));
+        verify(productService).removeProduct(eq(1L));
+        verify(productRepository).delete(notNull());
+        verifyNoMoreInteractions(productRepository, productService);
     }
 }
