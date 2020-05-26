@@ -12,7 +12,7 @@ public class ErrorHandler {
     @ExceptionHandler
     public ResponseEntity<String> handleNotFound(final ProductNotFoundForIdException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .contentType(MediaType.TEXT_PLAIN)
-                             .body(ex.getMessage());
+                .contentType(MediaType.TEXT_PLAIN)
+                .body(ex.getMessage());
     }
 }

@@ -28,25 +28,25 @@ class ProductControllerTest extends AbstractControllerTest {
     void findProductById() throws Exception {
         //Test data
         final ProductPayload productPayload = ProductPayload.builder()
-                                                            .name("Vanardi")
-                                                            .description("Test product")
-                                                            .availableQuantity(10L)
-                                                            .price(BigDecimal.TEN)
-                                                            .type(ProductType.WINE)
-                                                            .build();
+                .name("Vanardi")
+                .description("Test product")
+                .availableQuantity(10L)
+                .price(BigDecimal.TEN)
+                .type(ProductType.WINE)
+                .build();
         //API calls
         mockMvc.perform(post(BASE_PATH)
                 .content(mapper.writeValueAsString(productPayload))
                 .contentType(MediaType.APPLICATION_JSON))
-               .andDo(print())
-               .andExpect(status().isCreated());
+                .andDo(print())
+                .andExpect(status().isCreated());
         mockMvc.perform(get(BASE_PATH + "{productId}", 2L))
-               .andDo(print())
-               .andExpect(matchAll(
-                       jsonPath("$.id").value(2),
-                       jsonPath("$.type").value(productPayload.getType().name()),
-                       jsonPath("$.name").value(productPayload.getName()),
-                       jsonPath("$.price").isNumber()));
+                .andDo(print())
+                .andExpect(matchAll(
+                        jsonPath("$.id").value(2),
+                        jsonPath("$.type").value(productPayload.getType().name()),
+                        jsonPath("$.name").value(productPayload.getName()),
+                        jsonPath("$.price").isNumber()));
     }
 
     @DisplayName("Should retrieve product with provided name")
@@ -54,13 +54,13 @@ class ProductControllerTest extends AbstractControllerTest {
     void findProduct() throws Exception {
         //API call
         mockMvc.perform(get(BASE_PATH).queryParam("name", "Kataro"))
-               .andDo(print())
-               .andExpect((matchAll(
-                       status().isOk(),
-                       jsonPath("$.content[0].name").value("Kataro"),
-                       jsonPath("$.content[0].id").value(1),
-                       jsonPath("$.content[0].type").value(ProductType.WINE.name()),
-                       jsonPath("$.content[0].price").isNumber())));
+                .andDo(print())
+                .andExpect((matchAll(
+                        status().isOk(),
+                        jsonPath("$.content[0].name").value("Kataro"),
+                        jsonPath("$.content[0].id").value(1),
+                        jsonPath("$.content[0].type").value(ProductType.WINE.name()),
+                        jsonPath("$.content[0].price").isNumber())));
     }
 
     @DisplayName("Should update product for provided payload")
@@ -74,25 +74,25 @@ class ProductControllerTest extends AbstractControllerTest {
         mockMvc.perform(put(BASE_PATH + "{productId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(productPayload)))
-               .andDo(print())
-               .andExpect(status().isAccepted());
+                .andDo(print())
+                .andExpect(status().isAccepted());
         mockMvc.perform(get(BASE_PATH + "{productId}", 1L))
-               .andDo(print())
-               .andExpect(matchAll(
-                       status().isOk(),
-                       jsonPath("$.name").value(productPayload.getName()),
-                       jsonPath("$.id").value(1),
-                       jsonPath("$.type").value(productPayload.getType().name()),
-                       jsonPath("$.price").value(productPayload.getPrice()),
-                       jsonPath("$.availableQuantity").value(productPayload.getAvailableQuantity())));
+                .andDo(print())
+                .andExpect(matchAll(
+                        status().isOk(),
+                        jsonPath("$.name").value(productPayload.getName()),
+                        jsonPath("$.id").value(1),
+                        jsonPath("$.type").value(productPayload.getType().name()),
+                        jsonPath("$.price").value(productPayload.getPrice()),
+                        jsonPath("$.availableQuantity").value(productPayload.getAvailableQuantity())));
     }
 
     @DisplayName("Should remove product for provided id")
     @Test
     void removeProduct() throws Exception {
         mockMvc.perform(delete(BASE_PATH + "{productId}", 1L))
-               .andExpect(status().isOk());
+                .andExpect(status().isOk());
         mockMvc.perform(get(BASE_PATH + "{productId}", 1L))
-               .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 }

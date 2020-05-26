@@ -9,8 +9,8 @@ public final class SecurityUtils {
 
     public static String getCurrentUserUsername() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
-                       .map(Authentication::getPrincipal)
-                       .map(String.class::cast)
-                       .orElseThrow(RuntimeException::new);
+                .map(Authentication::getPrincipal)
+                .map(String.class::cast)
+                .orElseThrow(RuntimeException::new);
     }
 }

@@ -2,17 +2,14 @@ package am.rockstars.controller;
 
 import am.rockstars.dto.ProductPayload;
 import am.rockstars.entity.Product;
-import am.rockstars.entity.QProduct;
 import am.rockstars.mapper.ProductMapper;
 import am.rockstars.repository.ProductRepository;
 import am.rockstars.response.ProductResponse;
-import am.rockstars.security.util.SecurityUtils;
 import am.rockstars.service.ProductService;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -37,8 +34,7 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct(@Valid @RequestBody
-                                  final ProductPayload productPayload) {
+    public void createProduct(@Valid @RequestBody final ProductPayload productPayload) {
         productService.createProduct(SecurityContextHolder.getContext().getAuthentication().getName(), productPayload);
     }
 
@@ -48,9 +44,9 @@ public class ProductController {
         return mapper.mapToProductResponse(productService.findById(productId));
     }
 
-    @ApiOperation(value = "Retrieve products for search predicate",produces =MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Retrieve products for search predicate", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping
-    public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) Predicate searchPredicate,final Pageable pageable) {
+    public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) Predicate searchPredicate, final Pageable pageable) {
         return productRepository.findAll(searchPredicate, pageable).map(mapper::mapToProductResponse);
     }
 
