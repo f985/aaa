@@ -1,6 +1,6 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "product_in_order")
-public class ProductInOrder extends AbstractEntity {
+public class ProductInOrder extends BaseEntity {
 
     @NotNull
     @Column(name = "quantity", nullable = false)

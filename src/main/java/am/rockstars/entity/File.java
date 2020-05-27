@@ -1,12 +1,10 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * A File.
@@ -15,7 +13,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "file")
-public class File extends AbstractEntity {
+public class File extends BaseEntity {
 
     @Column(name = "name")
     private String name;

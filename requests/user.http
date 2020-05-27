@@ -6,8 +6,8 @@ Content-Type: application/json
 {
   "firstName": "Artur",
   "lastName": "Vahanyan",
-  "email": "artur.vaganyan96@gmail.caom",
-  "password": "1234567"
+  "email": "artur.vaganyan96@gmail.com",
+  "password": "123456"
 }
 
 ### Activate User
@@ -23,13 +23,8 @@ Content-Type: application/json
 
 {
   "username": "artur.vaganyan96@gmail.com",
-  "password": "1234567"
+  "password": "123456"
 }
-
-
-### GET products
-GET localhost:8082/api/products?name=Red
-Authorization:  Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlkIjoxLCJleHAiOjE1OTAzNDQ3MjV9.zzluA1GR9b0llli4EUz4ArVX4TFHsvnErazq5pqqEmNEAh5Pt7eiWWjWaGlaMrC4b1XM2nxKprwRkECzqTL6Iw
 
 ### Get User Informetion
 
