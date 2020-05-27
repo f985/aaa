@@ -44,13 +44,12 @@ public class HeaderService {
 
     public List<Header> getAll() {
         log.debug("Requested to get all headers");
-        return mapper.map(headerRepository.findAll(getSortting()));
+        return mapper.map(headerRepository.findAll(getSorting()));
     }
 
     public List<HeaderEdit> getEditHeaderResponse() {
         log.debug("Requested to get all headers for edit");
-        final Sort sort = Sort.by(Sort.Direction.ASC, "orderNumber");
-        return mapper.mapEditResponse(headerRepository.findAll(getSortting()));
+        return mapper.mapEditResponse(headerRepository.findAll(getSorting()));
     }
 
     @Transactional
@@ -139,7 +138,7 @@ public class HeaderService {
         elementRepository.save(element);
     }
 
-    private Sort getSortting() {
+    private Sort getSorting() {
         return Sort.by(Sort.Direction.ASC, "orderNumber");
     }
 }

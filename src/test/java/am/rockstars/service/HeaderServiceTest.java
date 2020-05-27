@@ -21,6 +21,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
@@ -66,12 +67,12 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         when(mapper.map(any(CreateHeaderRequest.class))).thenReturn(header);
         when(mapper.mapEditResponse(headers)).thenReturn(Collections.singletonList(response));
         when(headerRepository.save(any(Header.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
-        when(headerRepository.findAll()).thenReturn(headers);
+        when(headerRepository.findAll(any(Sort.class))).thenReturn(headers);
         //Service call
         final List<HeaderEdit> responses = headerService.addHeader(request);
         //Verify
         verify(headerRepository).save(header);
-        verify(headerRepository).findAll();
+        verify(headerRepository).findAll(any(Sort.class));
         verify(mapper).map(request);
         verify(mapper).mapEditResponse(headers);
         verifyNoMoreInteractions(headerRepository, mapper);
@@ -91,7 +92,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         response.setType(HeaderType.LINK);
         final List<Header> headers = Collections.singletonList(header);
         //Mock
-        when(headerRepository.findAll()).thenReturn(headers);
+        when(headerRepository.findAll(any(Sort.class))).thenReturn(headers);
         when(mapper.mapEditResponse(headers)).thenReturn(Collections.singletonList(response));
         when(mapper.map(any(CreateHeaderChildRequest.class))).thenReturn(headerChild);
         when(headerRepository.findById(1L)).thenReturn(Optional.ofNullable(header));
@@ -100,7 +101,8 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final List<HeaderEdit> responses = headerService.addHeaderChild(request, 1L);
         //Verify
         verify(headerRepository).findById(1L);
-        verify(headerRepository).findAll();
+        verify(headerRepository).findAll(any(Sort.class));
+        verify(headerRepository).save(header);
         verify(childRepository).save(headerChild);
         verify(mapper).map(request);
         verify(mapper).mapEditResponse(headers);
@@ -122,7 +124,7 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         response.setType(HeaderType.LINK);
         final List<Header> headers = Collections.singletonList(header);
         //Mock
-        when(headerRepository.findAll()).thenReturn(headers);
+        when(headerRepository.findAll(any(Sort.class))).thenReturn(headers);
         when(mapper.mapEditResponse(headers)).thenReturn(Collections.singletonList(response));
         when(mapper.map(any(CreateHeaderChildElementRequest.class))).thenReturn(headerChildElement);
         when(childRepository.findById(1L)).thenReturn(Optional.ofNullable(headerChild));
@@ -131,8 +133,9 @@ public class HeaderServiceTest extends AbstractServiceUnitTest {
         final List<HeaderEdit> responses = headerService.addHeaderChildElement(request, 1L);
         //Verify
         verify(childRepository).findById(1L);
-        verify(headerRepository).findAll();
+        verify(headerRepository).findAll(any(Sort.class));
         verify(elementRepository).save(headerChildElement);
+        verify(childRepository).save(headerChild);
         verify(mapper).map(request);
         verify(mapper).mapEditResponse(headers);
         verifyNoMoreInteractions(headerRepository, childRepository, mapper);

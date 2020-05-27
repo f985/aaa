@@ -30,7 +30,6 @@ class HeaderControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get("/api/header")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(matchAll(status().isOk(),
                         jsonPath("$[0].name").value(createHeaderRequest.getName()),
                         jsonPath("$[0].mega").value(createHeaderRequest.getMega()),
@@ -49,51 +48,48 @@ class HeaderControllerTest extends AbstractControllerTest {
 
         mockMvc.perform(get("/api/header")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(matchAll(status().isOk(),
-                        jsonPath("$[0].children[0].name").value(childRequest.getName()),
-                        jsonPath("$[0].children[0].icon").value(childRequest.getIcon()),
-                        jsonPath("$[0].children[0].type").value(childRequest.getType().getName()),
-                        jsonPath("$[0].children[0].state").value(childRequest.getState())));
+                        jsonPath("$[1].children[0].name").value(childRequest.getName()),
+                        jsonPath("$[1].children[0].icon").value(childRequest.getIcon()),
+                        jsonPath("$[1].children[0].type").value(childRequest.getType().getName()),
+                        jsonPath("$[1].children[0].state").value(childRequest.getState())));
     }
 
     @DisplayName("Should create header child element")
     @Test
     void EditHeaderChildElement() throws Exception {
-        final Long headerId = 1L;
-        final Long childId = 1L;
-        executeCreateHeaderRequest(createHeaderRequest(headerId));
-        executeCreateChildRequest(headerId, createChildRequest(childId));
+        final Long id = 3L;
+        executeCreateHeaderRequest(createHeaderRequest(id));
+        executeCreateChildRequest(id, createChildRequest(id));
         final CreateHeaderChildElementRequest elementRequest = randomObject.nextObject(CreateHeaderChildElementRequest.class);
-        elementRequest.setId(1L);
-        elementRequest.setOrderNumber(1);
+        elementRequest.setId(id);
+        elementRequest.setOrderNumber(id.intValue());
 
-        mockMvc.perform(post("/api/admin/header/child/" + childId + "/element")
+        mockMvc.perform(post("/api/admin/header/child/" + id + "/element")
                 .content(mapper.writeValueAsString(elementRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/header")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(matchAll(status().isOk(),
-                        jsonPath("$[0].children[0].children[0].name").value(elementRequest.getName()),
-                        jsonPath("$[0].children[0].children[0].icon").value(elementRequest.getIcon()),
-                        jsonPath("$[0].children[0].children[0].type").value(elementRequest.getType().getName()),
-                        jsonPath("$[0].children[0].children[0].state").value(elementRequest.getState())));
+                        jsonPath("$[2].children[0].children[0].name").value(elementRequest.getName()),
+                        jsonPath("$[2].children[0].children[0].icon").value(elementRequest.getIcon()),
+                        jsonPath("$[2].children[0].children[0].type").value(elementRequest.getType().getName()),
+                        jsonPath("$[2].children[0].children[0].state").value(elementRequest.getState())));
     }
 
-    private CreateHeaderChildRequest createChildRequest(final Long headerId) {
+    private CreateHeaderChildRequest createChildRequest(final Long childId) {
         final CreateHeaderChildRequest childRequest = randomObject.nextObject(CreateHeaderChildRequest.class);
-        childRequest.setId(headerId);
-        childRequest.setOrderNumber(1);
+        childRequest.setId(childId);
+        childRequest.setOrderNumber(childId.intValue());
         return childRequest;
     }
 
     private CreateHeaderRequest createHeaderRequest(final Long headerId) {
         final CreateHeaderRequest createHeaderRequest = randomObject.nextObject(CreateHeaderRequest.class);
         createHeaderRequest.setId(headerId);
-        createHeaderRequest.setOrderNumber(1);
+        createHeaderRequest.setOrderNumber(headerId.intValue());
         return createHeaderRequest;
     }
 
