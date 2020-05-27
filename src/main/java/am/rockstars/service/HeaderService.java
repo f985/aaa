@@ -127,13 +127,15 @@ public class HeaderService {
 
     private void createHeaderChild(CreateHeaderChildRequest childRequest, am.rockstars.entity.Header header) {
         final HeaderChild child = mapper.map(childRequest);
-        child.setHeader(header);
+        header.addChild(child);
+        headerRepository.save(header);
         childRepository.save(child);
     }
 
     private void createHeaderChildElement(CreateHeaderChildElementRequest elementRequest, HeaderChild child) {
         final HeaderChildElement element = mapper.map(elementRequest);
-        element.setChild(child);
+        child.addElement(element);
+        childRepository.save(child);
         elementRepository.save(element);
     }
 

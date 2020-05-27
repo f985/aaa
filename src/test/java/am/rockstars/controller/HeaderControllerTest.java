@@ -1,14 +1,13 @@
 package am.rockstars.controller;
 
-import am.rockstars.dto.ProductPayload;
-import am.rockstars.enums.ProductType;
+import am.rockstars.dto.header.edit.CreateHeaderChildElementRequest;
+import am.rockstars.dto.header.edit.CreateHeaderChildRequest;
+import am.rockstars.dto.header.edit.CreateHeaderRequest;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.testcontainers.containers.PostgreSQLContainer;
-
-import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,44 +21,93 @@ class HeaderControllerTest extends AbstractControllerTest {
     @ClassRule
     public static PostgreSQLContainer<PostgreSqlContainer> postgreSQLContainer = PostgreSqlContainer.getInstance();
 
-    @DisplayName("Should retrieve product by id")
+    @DisplayName("Should create header")
     @Test
-    void findProductById() throws Exception {
-        //Test data
-        final ProductPayload productPayload = ProductPayload.builder()
-                                                            .name("Vanardi")
-                                                            .description("Test product")
-                                                            .availableQuantity(10L)
-                                                            .price(BigDecimal.TEN)
-                                                            .type(ProductType.WINE)
-                                                            .build();
-        //API calls
-        mockMvc.perform(post("/api/products/")
-                .content(mapper.writeValueAsString(productPayload))
-                .contentType(MediaType.APPLICATION_JSON))
-               .andDo(print())
-               .andExpect(status().isCreated());
-        mockMvc.perform(get("/api/products/{productId}", 2L))
-               .andDo(print())
-               .andExpect(matchAll(
-                       jsonPath("$.id").value(2),
-                       jsonPath("$.type").value(productPayload.getType().name()),
-                       jsonPath("$.name").value(productPayload.getName()),
-                       jsonPath("$.price").isNumber()));
+    void EditHeaders() throws Exception {
+        final CreateHeaderRequest createHeaderRequest = createHeaderRequest(1L);
 
+        executeCreateHeaderRequest(createHeaderRequest);
+
+        mockMvc.perform(get("/api/header")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(matchAll(status().isOk(),
+                        jsonPath("$[0].name").value(createHeaderRequest.getName()),
+                        jsonPath("$[0].mega").value(createHeaderRequest.getMega()),
+                        jsonPath("$[0].icon").value(createHeaderRequest.getIcon()),
+                        jsonPath("$[0].type").value(createHeaderRequest.getType().getName()),
+                        jsonPath("$[0].state").value(createHeaderRequest.getState())));
     }
 
-    @DisplayName("Should retrieve product with provided name")
+    @DisplayName("Should create header child")
     @Test
-    void findProduct() throws Exception {
-        //API call
-        mockMvc.perform(get("/api/products").queryParam("name", "Kataro"))
-               .andDo(print())
-               .andExpect((matchAll(
-                       status().isOk(),
-                       jsonPath("$.content[0].name").value("Kataro"),
-                       jsonPath("$.content[0].id").value(1),
-                       jsonPath("$.content[0].type").value(ProductType.WINE.name()),
-                       jsonPath("$.content[0].price").isNumber())));
+    void EditHeaderChild() throws Exception {
+        final Long headerId = 2L;
+        executeCreateHeaderRequest(createHeaderRequest(headerId));
+        final CreateHeaderChildRequest childRequest = createChildRequest(headerId);
+        executeCreateChildRequest(headerId, childRequest);
+
+        mockMvc.perform(get("/api/header")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(matchAll(status().isOk(),
+                        jsonPath("$[0].children[0].name").value(childRequest.getName()),
+                        jsonPath("$[0].children[0].icon").value(childRequest.getIcon()),
+                        jsonPath("$[0].children[0].type").value(childRequest.getType().getName()),
+                        jsonPath("$[0].children[0].state").value(childRequest.getState())));
+    }
+
+    @DisplayName("Should create header child element")
+    @Test
+    void EditHeaderChildElement() throws Exception {
+        final Long headerId = 1L;
+        final Long childId = 1L;
+        executeCreateHeaderRequest(createHeaderRequest(headerId));
+        executeCreateChildRequest(headerId, createChildRequest(childId));
+        final CreateHeaderChildElementRequest elementRequest = randomObject.nextObject(CreateHeaderChildElementRequest.class);
+        elementRequest.setId(1L);
+        elementRequest.setOrderNumber(1);
+
+        mockMvc.perform(post("/api/admin/header/child/" + childId + "/element")
+                .content(mapper.writeValueAsString(elementRequest))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/header")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(matchAll(status().isOk(),
+                        jsonPath("$[0].children[0].children[0].name").value(elementRequest.getName()),
+                        jsonPath("$[0].children[0].children[0].icon").value(elementRequest.getIcon()),
+                        jsonPath("$[0].children[0].children[0].type").value(elementRequest.getType().getName()),
+                        jsonPath("$[0].children[0].children[0].state").value(elementRequest.getState())));
+    }
+
+    private CreateHeaderChildRequest createChildRequest(final Long headerId) {
+        final CreateHeaderChildRequest childRequest = randomObject.nextObject(CreateHeaderChildRequest.class);
+        childRequest.setId(headerId);
+        childRequest.setOrderNumber(1);
+        return childRequest;
+    }
+
+    private CreateHeaderRequest createHeaderRequest(final Long headerId) {
+        final CreateHeaderRequest createHeaderRequest = randomObject.nextObject(CreateHeaderRequest.class);
+        createHeaderRequest.setId(headerId);
+        createHeaderRequest.setOrderNumber(1);
+        return createHeaderRequest;
+    }
+
+    private void executeCreateChildRequest(Long headerId, CreateHeaderChildRequest childRequest) throws Exception {
+        mockMvc.perform(post("/api/admin/header/" + headerId + "/child")
+                .content(mapper.writeValueAsString(childRequest))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    private void executeCreateHeaderRequest(CreateHeaderRequest createHeaderRequest) throws Exception {
+        mockMvc.perform(post("/api/admin/header")
+                .content(mapper.writeValueAsString(createHeaderRequest))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

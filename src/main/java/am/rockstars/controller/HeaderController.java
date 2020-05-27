@@ -42,7 +42,7 @@ public class HeaderController {
         return ResponseEntity.ok(headerService.getEditHeaderResponse());
     }
 
-    @PostMapping("/admin/header/")
+    @PostMapping("/admin/header")
     public ResponseEntity<?> add(@RequestBody CreateHeaderRequest request) {
         return ResponseEntity.ok(headerService.addHeader(request));
     }

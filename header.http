@@ -1,7 +1,8 @@
 ### Create header
 
-POST localhost:8082/admin/header
+POST localhost:8082/api/admin/header
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlkIjoxLCJleHAiOjE1OTA0MjY5MDF9.qo1PnUybvcH94bwhdtAOWG6PyN5yLVncAjE4q61gvKAMkEpJvBT38aM4-FUu7YnjeSNaWsngW_yd0xrfOtbSaA
 
 {
   "id": 1,
@@ -9,12 +10,14 @@ Content-Type: application/json
   "name": "Aaa",
   "icon": "test",
   "mega": false,
-  "type": "sub"
+  "type": "sub",
+  "orderNumber": 1,
+  "disabled": false
 }
 
 ### Create header child
 
-POST localhost:8082/admin/header/1/child
+POST localhost:8082/api/admin/header/1/child
 Content-Type: application/json
 
 {
@@ -22,7 +25,9 @@ Content-Type: application/json
   "state": "123",
   "name": "123123",
   "icon": "3333333",
-  "type": "sub"
+  "type": "sub",
+  "orderNumber": 1,
+  "disabled": false
 }
 
 ### Create header element
@@ -36,7 +41,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtY
   "state": "1armen",
   "name": "sdsd",
   "icon": "zxcssd",
-  "type": "link"
+  "type": "link",
+  "orderNumber": 1,
+  "disabled": false
 }
 
 
