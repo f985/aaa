@@ -64,9 +64,9 @@ public class JWTAuthenticationService {
             @SuppressWarnings("unchecked") final Optional<List<String>> authoritiesClaim = Optional.ofNullable((List<String>) claims.get(AUTHORITIES));
 
             final List<SimpleGrantedAuthority> authorities = authoritiesClaim.orElse(List.of())
-                                                                             .stream()
-                                                                             .map(SimpleGrantedAuthority::new)
-                                                                             .collect(Collectors.toList());
+                    .stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
 
             return username != null ?
                     new UsernamePasswordAuthenticationToken(username, null, authorities) :

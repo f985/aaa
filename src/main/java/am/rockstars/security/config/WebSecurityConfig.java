@@ -61,24 +61,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             http.formLogin().disable()
-                .csrf().disable()
-                .httpBasic()
-                .and()
-                .antMatcher("/monitoring/**")
-                .logout().logoutUrl("/monitoring/logout")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/monitoring/**").hasAuthority("ADMIN")
-                .anyRequest()
-                .authenticated();
+                    .csrf().disable()
+                    .httpBasic()
+                    .and()
+                    .antMatcher("/monitoring/**")
+                    .logout().logoutUrl("/monitoring/logout")
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/monitoring/**").hasAuthority("ADMIN")
+                    .anyRequest()
+                    .authenticated();
         }
 
         @Override
         public void configure(final WebSecurity web) throws Exception {
             web.ignoring()
-               .antMatchers("/swagger-ui.html", "/v2/api-docs",
-                       "/configuration/ui", "/swagger-resources/**",
-                       "/configuration/security", "/swagger-ui.html", "/webjars/**");
+                    .antMatchers("/swagger-ui.html", "/v2/api-docs",
+                            "/configuration/ui", "/swagger-resources/**",
+                            "/configuration/security", "/swagger-ui.html", "/webjars/**");
         }
     }
 

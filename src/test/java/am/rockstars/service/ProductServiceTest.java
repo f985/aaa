@@ -51,7 +51,7 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
         verify(productRepository).save(productArgumentCaptor.capture());
         verifyNoMoreInteractions(userService, productRepository);
         //Asserts
-        assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload,  "createdBy", "id", "createdAt", "updatedAt");
+        assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload, "createdBy", "id", "createdAt", "updatedAt");
     }
 
     @DisplayName("Should throw exception when product payload is null")

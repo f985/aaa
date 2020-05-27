@@ -1,7 +1,10 @@
 package am.rockstars.dto;
 
 import am.rockstars.validator.ValidEmailCollection;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
