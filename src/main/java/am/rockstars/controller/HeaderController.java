@@ -7,6 +7,9 @@ import am.rockstars.service.HeaderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @RestController
 @RequestMapping("/api")
 public class HeaderController {
@@ -23,12 +26,12 @@ public class HeaderController {
     }
 
     @DeleteMapping("/admin/header/{headerId}")
-    public ResponseEntity<?> delete(@PathVariable final Long headerId) {
+    public ResponseEntity<?> delete(@NotNull @PathVariable final Long headerId) {
         return ResponseEntity.ok(headerService.deleteHeader(headerId));
     }
 
     @DeleteMapping("/admin/header/child/{childId}")
-    public ResponseEntity<?> deleteChild(@PathVariable final Long childId) {
+    public ResponseEntity<?> deleteChild(@NotNull @PathVariable final Long childId) {
         return ResponseEntity.ok(headerService.deleteChild(childId));
     }
 
@@ -48,12 +51,12 @@ public class HeaderController {
     }
 
     @PostMapping("/admin/header/{headerId}/child")
-    public ResponseEntity<?> addChild(@RequestBody CreateHeaderChildRequest request, @PathVariable final Long headerId) {
+    public ResponseEntity<?> addChild(@Valid @RequestBody CreateHeaderChildRequest request, @NotNull @PathVariable final Long headerId) {
         return ResponseEntity.ok(headerService.addHeaderChild(request, headerId));
     }
 
     @PostMapping("/admin/header/child/{childId}/element")
-    public ResponseEntity<?> addChildElement(@RequestBody CreateHeaderChildElementRequest request, @PathVariable final Long childId) {
+    public ResponseEntity<?> addChildElement(@Valid @RequestBody CreateHeaderChildElementRequest request, @NotNull @PathVariable final Long childId) {
         return ResponseEntity.ok(headerService.addHeaderChildElement(request, childId));
     }
 
