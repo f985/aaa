@@ -20,6 +20,9 @@ public class Image extends BaseEntity {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @Column(name = "is_main",nullable = false)
+    private Boolean isMain;
+
     @ManyToOne
     private Product productId;
 }

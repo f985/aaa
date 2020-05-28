@@ -20,7 +20,7 @@ public class ProductResponse {
 
     private BigDecimal price;
 
-    private Long availableQuantity;
+    private Boolean availability;
 
     private byte[] image;
 }

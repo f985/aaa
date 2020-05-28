@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,5 +62,19 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     public void removeProduct(@PathVariable final Long productId) {
         productService.removeProduct(productId);
+    }
+
+    @ApiOperation(value = "Add feature to product")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{productId}/features")
+    public void addFeatures(@PathVariable final Long productId, @RequestBody final List<String> features) {
+        productService.addFeatures(productId, features);
+    }
+
+    @ApiOperation(value = "Add tags to product")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{productId}/tags")
+    public void addTags(@PathVariable final Long productId, @RequestBody final List<String> tags) {
+        productService.addTags(productId, tags);
     }
 }
