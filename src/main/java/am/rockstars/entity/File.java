@@ -1,13 +1,12 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * A File.
@@ -16,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "file")
-public class File extends AbstractEntity {
+public class File extends BaseEntity {
 
     @Column(name = "name")
     private String name;

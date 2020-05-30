@@ -1,0 +1,49 @@
+### Create header
+
+POST localhost:8082/api/admin/header
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlkIjoxLCJleHAiOjE1OTA0MjY5MDF9.qo1PnUybvcH94bwhdtAOWG6PyN5yLVncAjE4q61gvKAMkEpJvBT38aM4-FUu7YnjeSNaWsngW_yd0xrfOtbSaA
+
+{
+  "id": 1,
+  "state": "state",
+  "name": "Aaa",
+  "icon": "test",
+  "mega": false,
+  "type": "sub",
+  "orderNumber": 1,
+  "disabled": false
+}
+
+### Create header child
+
+POST localhost:8082/api/admin/header/1/child
+Content-Type: application/json
+
+{
+  "id": 1,
+  "state": "123",
+  "name": "123123",
+  "icon": "3333333",
+  "type": "sub",
+  "orderNumber": 1,
+  "disabled": false
+}
+
+### Create header element
+
+POST localhost:8082/api/admin/header/child/1/element
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhcnR1ci52YWdhbnlhbjk2QGdtYWlsLmNvbSIsIkF1dGhvcml0aWVzIjpbIkFETUlOIl0sImlkIjoxLCJleHAiOjE1OTAyNjkyMzB9.cw6rGi59CaZYYHq5RZyzmsKZW5d25MzEvOA4skiCVoWH_Of8_YHaLWtmYUwVLqwir0xwQErvnh5n5oJ-DFmb4Q
+
+{
+  "id": 1,
+  "state": "1armen",
+  "name": "sdsd",
+  "icon": "zxcssd",
+  "type": "link",
+  "orderNumber": 1,
+  "disabled": false
+}
+
+

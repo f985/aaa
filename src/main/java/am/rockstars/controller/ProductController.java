@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
-@Api
+@Api(value = "Products controller ")
 public class ProductController {
 
     private final ProductService productService;
@@ -40,12 +40,26 @@ public class ProductController {
 
     @ApiOperation(value = "Retrieve product by id", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/{productId}")
-    public ProductResponse name(@PathVariable final Long productId) {
+    public ProductResponse findById(@PathVariable final Long productId) {
         return mapper.mapToProductResponse(productService.findById(productId));
     }
 
+    @ApiOperation(value = "Retrieve products for search predicate", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping
     public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) Predicate searchPredicate, final Pageable pageable) {
         return productRepository.findAll(searchPredicate, pageable).map(mapper::mapToProductResponse);
+    }
+
+    @ApiOperation(value = "Update product")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{productId}")
+    public void updateProduct(@PathVariable final Long productId, @Valid @RequestBody final ProductPayload productPayload) {
+        productService.updateProduct(productId, productPayload);
+    }
+
+    @ApiOperation(value = "Remove product")
+    @DeleteMapping("/{productId}")
+    public void removeProduct(@PathVariable final Long productId) {
+        productService.removeProduct(productId);
     }
 }

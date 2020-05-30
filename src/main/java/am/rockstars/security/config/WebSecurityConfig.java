@@ -47,9 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTLoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/api/users/**", "/api/users/activate", "/actuator/**", "/api/login/**", "/api/oauth2/**").permitAll()
+                .antMatchers("/api/users/**", "/api/users/activate", "/actuator/**", "/api/login/**", "/api/oauth2/**", "/api/header").permitAll()
                 .antMatchers("/api/users/current-user").authenticated()
-                .antMatchers("/api/products/**").hasAuthority("ADMIN")
+                .antMatchers("/api/products/**", "/api/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
 
     }
@@ -61,24 +61,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(final HttpSecurity http) throws Exception {
             http.formLogin().disable()
-                .csrf().disable()
-                .httpBasic()
-                .and()
-                .antMatcher("/monitoring/**")
-                .logout().logoutUrl("/monitoring/logout")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/monitoring/**").hasAuthority("ADMIN")
-                .anyRequest()
-                .authenticated();
+                    .csrf().disable()
+                    .httpBasic()
+                    .and()
+                    .antMatcher("/monitoring/**")
+                    .logout().logoutUrl("/monitoring/logout")
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/monitoring/**").hasAuthority("ADMIN")
+                    .anyRequest()
+                    .authenticated();
         }
 
         @Override
         public void configure(final WebSecurity web) throws Exception {
             web.ignoring()
-               .antMatchers("/swagger-ui.html", "/v2/api-docs",
-                       "/configuration/ui", "/swagger-resources/**",
-                       "/configuration/security", "/swagger-ui.html", "/webjars/**");
+                    .antMatchers("/swagger-ui.html", "/v2/api-docs",
+                            "/configuration/ui", "/swagger-resources/**",
+                            "/configuration/security", "/swagger-ui.html", "/webjars/**");
         }
     }
 

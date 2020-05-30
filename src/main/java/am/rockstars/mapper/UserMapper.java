@@ -1,8 +1,7 @@
 package am.rockstars.mapper;
 
-import am.rockstars.dto.CreateUserRequest;
-import am.rockstars.dto.EditUserProfileRequest;
-import am.rockstars.dto.UserResponse;
+import am.rockstars.dto.user.CreateUserRequest;
+import am.rockstars.dto.user.UserResponse;
 import am.rockstars.entity.User;
 import am.rockstars.security.domain.UserPrincipal;
 import org.mapstruct.Mapper;
