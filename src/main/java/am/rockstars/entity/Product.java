@@ -77,20 +77,4 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdby", updatable = false)
     private User createdBy;
-
-    public void addFeature(final Feature feature) {
-        if (features == null) {
-            features = new ArrayList<>();
-        }
-
-        features.add(feature);
-    }
-
-    public void addTag(final Tag tag) {
-        if (tags == null) {
-            tags = new ArrayList<>();
-        }
-
-        tags.add(tag);
-    }
 }
