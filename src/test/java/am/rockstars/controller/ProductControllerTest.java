@@ -1,6 +1,8 @@
 package am.rockstars.controller;
 
+import am.rockstars.dto.FeatureInfo;
 import am.rockstars.dto.ProductPayload;
+import am.rockstars.dto.TagInfo;
 import am.rockstars.enums.ProductCategory;
 import am.rockstars.enums.ProductStatus;
 import am.rockstars.enums.ProductType;
@@ -31,6 +33,14 @@ class ProductControllerTest extends AbstractControllerTest {
     @Test
     void findProductById() throws Exception {
         //Test data
+        final List<FeatureInfo> features = new ArrayList<>();
+        features.add(new FeatureInfo("feature1"));
+        features.add(new FeatureInfo("feature2"));
+
+        final List<TagInfo> tags = new ArrayList<>();
+        tags.add(new TagInfo("tag1"));
+        tags.add(new TagInfo("tag2"));
+
         final ProductPayload productPayload = ProductPayload.builder()
                 .name("Vanardi")
                 .description("Test product")
@@ -46,19 +56,32 @@ class ProductControllerTest extends AbstractControllerTest {
                 .rating(1)
                 .price(BigDecimal.TEN)
                 .type(ProductType.WINE)
+                .features(features)
+                .tags(tags)
                 .build();
         //API calls
         mockMvc.perform(post(BASE_PATH)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(productPayload))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated());
+
         mockMvc.perform(get(BASE_PATH + "{productId}", 2L))
                 .andDo(print())
                 .andExpect(matchAll(
                         jsonPath("$.id").value(2),
                         jsonPath("$.type").value(productPayload.getType().name()),
                         jsonPath("$.name").value(productPayload.getName()),
+                        jsonPath("$.brand").value(productPayload.getBrand()),
+                        jsonPath("$.category").value(productPayload.getCategory()),
+                        jsonPath("$.description").value(productPayload.getDescription()),
+                        jsonPath("$.productCode").value(productPayload.getProductCode()),
+                        jsonPath("$.color").value(productPayload.getColor()),
+                        jsonPath("$.availability").value(productPayload.getAvailability()),
+                        jsonPath("$.popular").value(productPayload.getPopular()),
+                        jsonPath("$.quantity").value(productPayload.getQuantity()),
+                        jsonPath("$.rating").value(productPayload.getRating()),
                         jsonPath("$.price").isNumber()));
     }
 
@@ -102,11 +125,19 @@ class ProductControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(matchAll(
                         status().isOk(),
-                        jsonPath("$.name").value(productPayload.getName()),
                         jsonPath("$.id").value(1),
                         jsonPath("$.type").value(productPayload.getType().name()),
-                        jsonPath("$.price").value(productPayload.getPrice()),
-                        jsonPath("$.availability").value(productPayload.getAvailability())));
+                        jsonPath("$.name").value(productPayload.getName()),
+                        jsonPath("$.brand").value(productPayload.getBrand()),
+                        jsonPath("$.category").value(productPayload.getCategory()),
+                        jsonPath("$.description").value(productPayload.getDescription()),
+                        jsonPath("$.productCode").value(productPayload.getProductCode()),
+                        jsonPath("$.color").value(productPayload.getColor()),
+                        jsonPath("$.availability").value(productPayload.getAvailability()),
+                        jsonPath("$.popular").value(productPayload.getPopular()),
+                        jsonPath("$.quantity").value(productPayload.getQuantity()),
+                        jsonPath("$.rating").value(productPayload.getRating()),
+                        jsonPath("$.price").isNumber()));
     }
 
     @DisplayName("Should remove product for provided id")
@@ -116,75 +147,5 @@ class ProductControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
         mockMvc.perform(get(BASE_PATH + "{productId}", 1L))
                 .andExpect(status().isNotFound());
-    }
-
-    @DisplayName("Add features to product")
-    @Test
-    void addFeatureToProduct() throws Exception {
-        //Test data
-        final ProductPayload productPayload = randomObject.nextObject(ProductPayload.class);
-        productPayload.setProductCode("0001");
-        productPayload.setBrand("LA");
-        productPayload.setCategory("MEN");
-        productPayload.setColor("GREEN");
-        productPayload.setQuantity(1);
-        productPayload.setRating(1);
-        productPayload.setCategoryType(ProductCategory.MEN);
-        productPayload.setStatus(ProductStatus.NEW);
-        productPayload.setAvailability(true);
-        productPayload.setPopular(false);
-        productPayload.setPrice(BigDecimal.TEN);
-
-        final List<String> features = new ArrayList<>();
-        features.add("a");
-        features.add("b");
-        features.add("c");
-        //API create call
-        mockMvc.perform(put(BASE_PATH + "{productId}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(productPayload)))
-                .andDo(print())
-                .andExpect(status().isAccepted());
-        //API add feature call
-        mockMvc.perform(put(BASE_PATH + "{productId}/features", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(features)))
-                .andDo(print())
-                .andExpect(status().isAccepted());
-    }
-
-    @DisplayName("Add Tags to product")
-    @Test
-    void addTagToProduct() throws Exception {
-        //Test data
-        final ProductPayload productPayload = randomObject.nextObject(ProductPayload.class);
-        productPayload.setProductCode("0001");
-        productPayload.setBrand("LA");
-        productPayload.setCategory("MEN");
-        productPayload.setColor("GREEN");
-        productPayload.setQuantity(1);
-        productPayload.setRating(1);
-        productPayload.setCategoryType(ProductCategory.MEN);
-        productPayload.setStatus(ProductStatus.NEW);
-        productPayload.setAvailability(true);
-        productPayload.setPopular(false);
-        productPayload.setPrice(BigDecimal.TEN);
-
-        final List<String> tags = new ArrayList<>();
-        tags.add("tag1");
-        tags.add("tag2");
-        tags.add("tag3");
-        //API create call
-        mockMvc.perform(put(BASE_PATH + "{productId}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(productPayload)))
-                .andDo(print())
-                .andExpect(status().isAccepted());
-        //API add feature call
-        mockMvc.perform(put(BASE_PATH + "{productId}/tags", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(tags)))
-                .andDo(print())
-                .andExpect(status().isAccepted());
     }
 }

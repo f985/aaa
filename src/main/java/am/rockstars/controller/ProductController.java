@@ -1,5 +1,6 @@
 package am.rockstars.controller;
 
+import am.rockstars.dto.GetProductDetailedInfoResponse;
 import am.rockstars.dto.ProductPayload;
 import am.rockstars.entity.Product;
 import am.rockstars.mapper.ProductMapper;
@@ -19,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,13 +41,13 @@ public class ProductController {
 
     @ApiOperation(value = "Retrieve product by id", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/{productId}")
-    public ProductResponse findById(@PathVariable final Long productId) {
-        return mapper.mapToProductResponse(productService.findById(productId));
+    public GetProductDetailedInfoResponse findById(@PathVariable final Long productId) {
+        return mapper.mapToProductDetailedInfoResponse(productService.findById(productId));
     }
 
     @ApiOperation(value = "Retrieve products for search predicate", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping
-    public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) Predicate searchPredicate, final Pageable pageable) {
+    public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) final Predicate searchPredicate, final Pageable pageable) {
         return productRepository.findAll(searchPredicate, pageable).map(mapper::mapToProductResponse);
     }
 
@@ -62,19 +62,5 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     public void removeProduct(@PathVariable final Long productId) {
         productService.removeProduct(productId);
-    }
-
-    @ApiOperation(value = "Add feature to product")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/{productId}/features")
-    public void addFeatures(@PathVariable final Long productId, @RequestBody final List<String> features) {
-        productService.addFeatures(productId, features);
-    }
-
-    @ApiOperation(value = "Add tags to product")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PutMapping("/{productId}/tags")
-    public void addTags(@PathVariable final Long productId, @RequestBody final List<String> tags) {
-        productService.addTags(productId, tags);
     }
 }

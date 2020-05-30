@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Product.
@@ -64,8 +66,31 @@ public class Product extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", nullable = false)
+    private List<Feature> features;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", nullable = false)
+    private List<Tag> tags;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "createdby", updatable = false)
     private User createdBy;
 
+    public void addFeature(final Feature feature) {
+        if (features == null) {
+            features = new ArrayList<>();
+        }
+
+        features.add(feature);
+    }
+
+    public void addTag(final Tag tag) {
+        if (tags == null) {
+            tags = new ArrayList<>();
+        }
+
+        tags.add(tag);
+    }
 }

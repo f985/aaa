@@ -17,8 +17,4 @@ public class Feature {
 
     @Column(name = "name")
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", updatable = false)
-    private Product product;
 }

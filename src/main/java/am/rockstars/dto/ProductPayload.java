@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -61,5 +62,9 @@ public class ProductPayload {
 
     @Positive(message = "Product price should be positive value")
     private BigDecimal price;
+
+    private List<FeatureInfo> features;
+
+    private List<TagInfo> tags;
 
 }
