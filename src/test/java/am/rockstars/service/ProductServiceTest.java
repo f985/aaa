@@ -5,6 +5,7 @@ import am.rockstars.entity.Product;
 import am.rockstars.entity.User;
 import am.rockstars.exception.ProductNotFoundForIdException;
 import am.rockstars.repository.ProductRepository;
+import am.rockstars.service.user.UserService;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

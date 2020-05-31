@@ -4,6 +4,7 @@ import am.rockstars.dto.ProductPayload;
 import am.rockstars.entity.Product;
 import am.rockstars.exception.ProductNotFoundForIdException;
 import am.rockstars.repository.ProductRepository;
+import am.rockstars.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;

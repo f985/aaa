@@ -1,5 +1,6 @@
-package am.rockstars.service;
+package am.rockstars.service.user;
 
+import am.rockstars.dto.EmailPayload;
 import am.rockstars.dto.user.CreateUserRequest;
 import am.rockstars.dto.user.EditUserProfileRequest;
 import am.rockstars.dto.user.UserResponse;
@@ -11,6 +12,8 @@ import am.rockstars.repository.UserRepository;
 import am.rockstars.security.config.BCryptConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.UUID;
 
 @Service
@@ -27,12 +31,20 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final BCryptConfiguration bCryptConfiguration;
+    private final ApplicationEventPublisher eventPublisher;
 
+    @Value("${host.address}")
+    private String hostAddress;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, BCryptConfiguration bCryptConfiguration) {
+    public UserService(final UserRepository userRepository,
+                       final UserMapper userMapper,
+                       final BCryptConfiguration bCryptConfiguration,
+                       final ApplicationEventPublisher eventPublisher
+    ) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.bCryptConfiguration = bCryptConfiguration;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -42,9 +54,10 @@ public class UserService implements UserDetailsService {
         userEntity.setPassword(
                 bCryptConfiguration.passwordEncoder().encode(userEntity.getPassword()));
         userEntity.setRole(UserRole.CUSTOMER);
-        //add activation mail sender service
         userEntity.setActivationKey(UUID.randomUUID().toString());
-        return userRepository.save(userEntity);
+        final User user = userRepository.save(userEntity);
+        eventPublisher.publishEvent(generateUserEmailVerificationEvent(user));
+        return user;
     }
 
     @Transactional
@@ -126,5 +139,14 @@ public class UserService implements UserDetailsService {
         user.setResetDate(null);
         userRepository.save(user);
         log.debug("Successfully changed password using reset mail key for user with email: {}", user.getEmail());
+    }
+
+    private EmailVerificationEvent generateUserEmailVerificationEvent(final User user) {
+        final String message = hostAddress.concat("/api/users/activate?key=").concat(user.getActivationKey());
+        final EmailPayload emailPayload = EmailPayload.builder()
+                .subject("Email verification")
+                .recipients(Collections.singleton(user.getEmail()))
+                .content(message).build();
+        return new EmailVerificationEvent(emailPayload);
     }
 }

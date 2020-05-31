@@ -1,7 +1,7 @@
 package am.rockstars.controller;
 
 import am.rockstars.dto.user.*;
-import am.rockstars.service.UserService;
+import am.rockstars.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

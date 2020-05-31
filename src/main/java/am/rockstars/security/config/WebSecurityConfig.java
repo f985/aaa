@@ -2,7 +2,7 @@ package am.rockstars.security.config;
 
 import am.rockstars.security.filter.JWTAuthenticationFilter;
 import am.rockstars.security.filter.JWTLoginFilter;
-import am.rockstars.service.UserService;
+import am.rockstars.service.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
