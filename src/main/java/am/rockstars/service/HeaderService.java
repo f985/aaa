@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static am.rockstars.entity.util.Utils.assertEntityNotFound;
+import static am.rockstars.entity.util.Utils.illegalArg;
 
 @Service
 @Slf4j
@@ -70,7 +70,7 @@ public class HeaderService {
         Assert.notNull(childRequest, "Argument childRequest should not be null");
         log.debug("Requested to add Child with header id '{}'", headerId);
         final am.rockstars.entity.Header header = headerRepository.findById(headerId)
-                .orElseThrow(assertEntityNotFound("Cannot find header by id -> %s", headerId));
+                .orElseThrow(illegalArg("Cannot find header by id -> %s", headerId));
         createHeaderChild(childRequest, header);
         log.debug("Successfully added Child by header id '{}' and request '{}'", headerId, childRequest);
         return this.getEditHeaderResponse();
@@ -85,7 +85,7 @@ public class HeaderService {
         Assert.notNull(childId, "Argument childRequest should not be null");
         log.debug("Requested to add Child Element with child id '{}'", childId);
         final HeaderChild child = childRepository.findById(childId)
-                .orElseThrow(assertEntityNotFound("Cannot find headerChild by id -> %s", childId));
+                .orElseThrow(illegalArg("Cannot find headerChild by id -> %s", childId));
         createHeaderChildElement(childRequest, child);
         log.debug("Successfully added Child Element '{}' by request '{}'", childId, childRequest);
         return this.getEditHeaderResponse();
@@ -95,7 +95,7 @@ public class HeaderService {
         Assert.notNull(headerId, "Argument headerId should not be null");
         log.debug("Requested to delete header with child id '{}'", headerId);
         final am.rockstars.entity.Header header = headerRepository.findById(headerId)
-                .orElseThrow(assertEntityNotFound("Cannot find header for delete by id  -> %s", headerId));
+                .orElseThrow(illegalArg("Cannot find header for delete by id  -> %s", headerId));
         headerRepository.delete(header);
         log.debug("Successfully deleted header by id '{}'", headerId);
         return this.getEditHeaderResponse();
@@ -105,7 +105,7 @@ public class HeaderService {
         Assert.notNull(childId, "Argument childId should not be null");
         log.debug("Requested to delete Child  with child id '{}'", childId);
         final HeaderChild child = childRepository.findById(childId)
-                .orElseThrow(assertEntityNotFound("Cannot find header child for delete by id  -> %s", childId));
+                .orElseThrow(illegalArg("Cannot find header child for delete by id  -> %s", childId));
         childRepository.delete(child);
         log.debug("Successfully deleted header Child by Child id '{}'", childId);
         return this.getEditHeaderResponse();
@@ -115,7 +115,7 @@ public class HeaderService {
         Assert.notNull(childElementId, "Argument childElementId should not be null");
         log.debug("Requested to delete Child Element with id '{}'", childElementId);
         final HeaderChildElement element = elementRepository.findById(childElementId)
-                .orElseThrow(assertEntityNotFound("Cannot find header child element for delete by id -> %s",
+                .orElseThrow(illegalArg("Cannot find header child element for delete by id -> %s",
                         childElementId));
         elementRepository.delete(element);
         log.debug("Successfully deleted header Child element by id '{}'", childElementId);

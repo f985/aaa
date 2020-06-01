@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 
 public final class Utils {
 
-    public static Supplier<EntityNotFoundException> assertEntityNotFound(final String message, final Object id) {
+    public static Supplier<EntityNotFoundException> illegalArg(final String message, final Object id) {
         return () -> new EntityNotFoundException(message + ": " + id);
     }
 }
