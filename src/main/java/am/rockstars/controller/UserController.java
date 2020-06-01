@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest user) {
-        return ResponseEntity.ok(userService.createUser(user).getActivationKey());
+        return ResponseEntity.ok(userService.createUser(user));
     }
 
     @PutMapping

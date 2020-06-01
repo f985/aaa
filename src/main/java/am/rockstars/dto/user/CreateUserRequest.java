@@ -7,13 +7,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
 @ToString
 public class CreateUserRequest {
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
 
     @Email

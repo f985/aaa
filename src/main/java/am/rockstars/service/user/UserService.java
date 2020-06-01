@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User createUser(final CreateUserRequest createUserRequest) {
+    public UserResponse createUser(final CreateUserRequest createUserRequest) {
         log.debug("Trying Create user with email: {}", createUserRequest.getEmail());
         User userEntity = userMapper.map(createUserRequest);
         userEntity.setPassword(
@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
         userEntity.setActivationKey(UUID.randomUUID().toString());
         final User user = userRepository.save(userEntity);
         eventPublisher.publishEvent(generateUserEmailVerificationEvent(user));
-        return user;
+        return userMapper.mapToUserResponse(user);
     }
 
     @Transactional
