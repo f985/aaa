@@ -18,16 +18,16 @@ public class FileController {
     private final FileService fileService;
 
     @GetMapping
-    public ResponseEntity<?> downloadFile(@RequestParam(value = "path") String path) throws IOException {
-        var file = fileService.download(path);
+    public ResponseEntity<?> downloadFile(@RequestParam(value = "path") final String path) throws IOException {
+        final var file = fileService.download(path);
 
-        var contentDisposition = ContentDisposition.builder("inline")
+        final var contentDisposition = ContentDisposition.builder("inline")
                 .filename(file.getName(), StandardCharsets.UTF_8)
                 .build();
 
-        var resource = new UrlResource(file.toURI());
+        final var resource = new UrlResource(file.toURI());
 
-        var mediaType = MediaTypeFactory.getMediaType(resource)
+        final var mediaType = MediaTypeFactory.getMediaType(resource)
                 .orElse(MediaType.APPLICATION_OCTET_STREAM);
 
         return ResponseEntity.ok()
@@ -38,7 +38,7 @@ public class FileController {
     }
 
     @PostMapping(value = "/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam(value = "file") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam(value = "file") final MultipartFile multipartFile) throws IOException {
         return ResponseEntity.ok(fileService.uploadFile(multipartFile));
     }
 }
