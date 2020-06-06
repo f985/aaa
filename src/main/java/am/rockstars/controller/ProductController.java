@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/products")
-@Api(value = "Products controller ")
+@Api(value = "Products controller asdasdasdasdasdas")
 public class ProductController {
 
     private final ProductService productService;
