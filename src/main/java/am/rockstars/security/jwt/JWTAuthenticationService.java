@@ -59,7 +59,7 @@ public class JWTAuthenticationService {
                     .parseClaimsJws(authToken)
                     .getBody();
 
-            String username = claims.getSubject();
+            Integer userId = claims.get(ID, Integer.class);
 
             @SuppressWarnings("unchecked") final Optional<List<String>> authoritiesClaim = Optional.ofNullable((List<String>) claims.get(AUTHORITIES));
 
@@ -68,8 +68,8 @@ public class JWTAuthenticationService {
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
 
-            return username != null ?
-                    new UsernamePasswordAuthenticationToken(username, null, authorities) :
+            return userId != null ?
+                    new UsernamePasswordAuthenticationToken(userId.longValue(), null, authorities) :
                     null;
         }
         return null;

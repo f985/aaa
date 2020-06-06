@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(username = "artur.vaganyan96@gmail.com", authorities = "ADMIN")
+@WithMockUser(username = "artur.vaganyan96@gmail.com", authorities = "MANAGER")
+//@WithSecurityContext()
 @Transactional
 @Execution(ExecutionMode.CONCURRENT)
 public abstract class AbstractControllerTest {

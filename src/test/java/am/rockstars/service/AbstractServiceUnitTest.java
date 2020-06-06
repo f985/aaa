@@ -18,6 +18,7 @@ public abstract class AbstractServiceUnitTest {
         final User user = new User();
         user.setEmail(username);
         user.setLastName("Test user");
+        user.setId(1L);
         return user;
     }
 }

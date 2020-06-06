@@ -6,10 +6,10 @@ import am.rockstars.security.util.SecurityUtils;
 import am.rockstars.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +23,20 @@ public class AddressController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize(value = "hasAuthority('MANAGER') or authentication.principal.equals(#payload.userId)")
     public void createAddress(@Valid @RequestBody final AddressPayload payload) {
-        service.createAddress(SecurityUtils.getCurrentUserUsername(), payload);
+        SecurityUtils.getCurrentUserUsername();
+        service.createAddress(payload);
     }
 
-    @GetMapping("/{email}")
-    public List<AddressPayload> getAddressesByEmail(@PathVariable @NotNull final String email) {
-        return service.findByUserEmail(email).stream().map(addressMapper::map).collect(Collectors.toList());
+    @GetMapping("/user/{userId}")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or authentication.principal.equals(#userId)")
+    public List<AddressPayload> getAddressesByUserId(@PathVariable final long userId) {
+        return service.findByUserId(userId).stream().map(addressMapper::map).collect(Collectors.toList());
     }
 
-    @GetMapping
-    public AddressPayload getAddressById(@RequestParam @NotNull final long id) {
+    @GetMapping("/{id}")
+    public AddressPayload getAddressById(@PathVariable final long id) {
         return addressMapper.map(service.findById(id));
     }
 }

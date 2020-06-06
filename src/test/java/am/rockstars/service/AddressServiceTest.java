@@ -45,13 +45,11 @@ public class AddressServiceTest extends AbstractServiceUnitTest {
         final EasyRandom easyRandom = new EasyRandom();
         final AddressPayload addressPayload = easyRandom.nextObject(AddressPayload.class);
         //Mock
-        when(userService.getUserByEmail(testUser.getEmail())).thenReturn(testUser);
         when(userService.getById(addressPayload.getUserId())).thenReturn(testUser);
         when(addressRepository.save(any(Address.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         //Service call
-        addressService.createAddress(testUser.getEmail(), addressPayload);
+        addressService.createAddress(addressPayload);
         //Verify
-        verify(userService).getUserByEmail(eq(testUser.getEmail()));
         verify(userService).getById(eq(addressPayload.getUserId()));
         final ArgumentCaptor<Address> addressArgumentCaptor = ArgumentCaptor.forClass(Address.class);
         verify(addressRepository).save(addressArgumentCaptor.capture());
@@ -66,7 +64,7 @@ public class AddressServiceTest extends AbstractServiceUnitTest {
     @Test
     void createAddressWithInvalidArgument() {
         assertThrows(IllegalArgumentException.class,
-                () -> addressService.createAddress("test", null), "Expected to throw IllegalArgumentException");
+                () -> addressService.createAddress(null), "Expected to throw IllegalArgumentException");
     }
 
     @DisplayName("Should return address for provided id")
@@ -87,11 +85,11 @@ public class AddressServiceTest extends AbstractServiceUnitTest {
     @Test
     void findByEmail() {
         //Mock
-        when(addressRepository.findByUserEmail(eq("test@email"))).thenReturn(List.of(new Address()));
+        when(addressRepository.findByUserId(eq(1L))).thenReturn(List.of(new Address()));
         //Service call
-        final List<Address> result = addressService.findByUserEmail("test@email");
+        final List<Address> result = addressService.findByUserId(1L);
         //Verify
-        verify(addressRepository).findByUserEmail(eq("test@email"));
+        verify(addressRepository).findByUserId(eq(1L));
         verifyNoMoreInteractions(addressRepository);
         //Asserts
         assertThat(result).isNotEmpty();

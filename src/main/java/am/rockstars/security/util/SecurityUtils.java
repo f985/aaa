@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public final class SecurityUtils {
 
-    public static String getCurrentUserUsername() {
+    public static Long getCurrentUserUsername() {
         return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .map(Authentication::getPrincipal)
-                .map(String.class::cast)
+                .map(Long.class::cast)
                 .orElseThrow(RuntimeException::new);
     }
 }

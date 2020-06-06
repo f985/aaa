@@ -1,6 +1,6 @@
 package am.rockstars.entity;
 
-import am.rockstars.entity.base.AbstractEntity;
+import am.rockstars.entity.base.BaseEntity;
 import am.rockstars.enums.AddressType;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "address")
-public class Address extends AbstractEntity {
+public class Address extends BaseEntity {
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -42,8 +42,5 @@ public class Address extends AbstractEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", updatable = false)
-    private User createdBy;
 
 }
