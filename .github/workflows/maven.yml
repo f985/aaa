@@ -25,7 +25,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml -Djib.to.auth.username=yeranosyans -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }} jib:build
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -38,4 +38,4 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL }}
           parameters: '{"apitoken": "${{ secrets.OPENSHIFT_TOKEN }}"}'
           cmd: |
-            'start-build nver-backend-github'
+            'oc import-image nver-backend'
