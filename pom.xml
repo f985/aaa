@@ -217,6 +217,9 @@
                 <configuration>
                     <to>
                         <image>docker.io/yeranosyans/nver-backend</image>
+                        <auth>
+                            <password>${env.DOCKERHUB_TOKEN}</password>
+                        </auth>
                     </to>
                 </configuration>
             </plugin>
