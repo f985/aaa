@@ -38,4 +38,4 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL }}
           parameters: '{"apitoken": "${{ secrets.OPENSHIFT_TOKEN }}"}'
           cmd: |
-            'oc import-image nver-backend'
+            'import-image nver-backend'
