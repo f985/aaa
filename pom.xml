@@ -218,6 +218,7 @@
                     <to>
                         <image>docker.io/yeranosyans/nver-backend</image>
                         <auth>
+                            <username>yeranosyans</username>
                             <password>${env.DOCKERHUB_TOKEN}</password>
                         </auth>
                     </to>
