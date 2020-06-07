@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.Optional;
 
-import static am.rockstars.entity.util.Utils.assertEntityNotPresent;
+import static am.rockstars.entity.util.Utils.illegalArg;
+
 
 @Service
 @Slf4j
@@ -43,9 +43,7 @@ public class AddressService {
 
     public Address findById(final long id) {
         log.debug("Retrieving product by id '{}'", id);
-        final Optional<Address> address = addressRepository.findById(id);
-        assertEntityNotPresent(address, "Cannot find address by id  -> %s", id);
-        return address.get();
+        return addressRepository.findById(id).orElseThrow(illegalArg("Cannot find address by id  -> %s", id));
     }
 
     public List<Address> findByUserId(final long userId) {
