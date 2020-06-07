@@ -234,6 +234,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/Q*.class</exclude>
+                        <exclude>**/*MapperImpl*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
