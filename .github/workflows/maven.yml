@@ -26,6 +26,13 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build with Maven
         run: mvn -B package --file pom.xml -Djib.to.auth.username=yeranosyans -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }} jib:build
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: <b0e3ffa6def6506444f1d7c86adf70b27b1a4d1280e5aba5ba09abe3b7c23482>
+          JACOCO_SOURCE_PATH: "${{github.workspace}}/src/main/java"
+        with:
+          coverageLocations: ${{github.workspace}}/target/site/jacoco/jacoco.xml:jacoco
   deploy:
     runs-on: ubuntu-latest
     needs: build

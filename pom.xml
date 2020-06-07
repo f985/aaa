@@ -29,6 +29,7 @@
         <test.containers.postgresql.version>1.10.6</test.containers.postgresql.version>
         <query.dsl.version>4.2.2</query.dsl.version>
         <jib.version>2.3.0</jib.version>
+        <jacoco.version>0.8.5</jacoco.version>
     </properties>
 
     <dependencies>
@@ -153,6 +154,12 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
             <version>${test.containers.postgresql.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testcontainers</groupId>
+                    <artifactId>testcontainers</artifactId>
+                </exclusion>
+            </exclusions>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -217,12 +224,27 @@
                 <configuration>
                     <to>
                         <image>docker.io/yeranosyans/nver-backend</image>
-                        <auth>
-                            <username>yeranosyans</username>
-                            <password>${env.DOCKERHUB_TOKEN}</password>
-                        </auth>
                     </to>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
