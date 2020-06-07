@@ -23,12 +23,21 @@ public class AddressService {
     private final AddressRepository addressRepository;
 
     @Transactional
-    public void createAddress(final AddressPayload payload) {
+    public long createAddress(final AddressPayload payload) {
         Assert.notNull(payload, "Address payload should not be null");
         log.debug("Creating address for provided payload '{}'", payload);
         final Address address = new Address();
         BeanUtils.copyProperties(payload, address);
         address.setUser(userService.getById(payload.getUserId()));
+        return addressRepository.save(address).getId();
+    }
+
+    @Transactional
+    public void updateAddress(final AddressPayload payload) {
+        Assert.notNull(payload, "Address payload should not be null");
+        log.debug("Update address for provided payload '{}'", payload);
+        final Address address = findById(payload.getId());
+        BeanUtils.copyProperties(payload, address);
         addressRepository.save(address);
     }
 
@@ -42,6 +51,11 @@ public class AddressService {
     public List<Address> findByUserId(final long userId) {
         log.debug("Retrieving addresses by id '{}'", userId);
         return addressRepository.findByUserId(userId);
+    }
+
+    public void deleteById(final long id) {
+        log.debug("Deleting addresses by id '{}'", id);
+        addressRepository.deleteById(id);
     }
 }
 

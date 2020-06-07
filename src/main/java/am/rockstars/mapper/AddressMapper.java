@@ -15,6 +15,5 @@ public interface AddressMapper {
     )
     AddressPayload map(Address address);
 
-    Address map(AddressPayload user);
 
 }
