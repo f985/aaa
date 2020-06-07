@@ -30,23 +30,29 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 public class HeaderServiceTest extends AbstractServiceUnitTest {
 
-    final EasyRandom easyRandom = new EasyRandom();
     @InjectMocks
     private HeaderService headerService;
+
     @Mock
     private HeaderRepository headerRepository;
+
     @Mock
     private HeaderChildRepository childRepository;
+
     @Mock
     private HeaderChildElementRepository elementRepository;
+
     @Mock
     private HeaderMapper mapper;
+
+    final EasyRandom easyRandom = new EasyRandom();
 
     @DisplayName("Should create header and return edit response")
     @Test
