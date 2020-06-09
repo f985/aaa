@@ -2,7 +2,6 @@ package am.rockstars.controller;
 
 import am.rockstars.dto.AddressPayload;
 import am.rockstars.enums.AddressType;
-import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.ResultMatcher.matchAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,7 +24,7 @@ class AddressControllerTest extends AbstractControllerTest {
     void addAddress() throws Exception {
         final AddressPayload addressRequest = getAddressPayload();
         final String id = executeCreateAddressRequest(addressRequest);
-        mockMvc.perform(get("/api/addresses/" + id).with(user(manager()))
+        mockMvc.perform(get("/api/addresses/" + id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(match(addressRequest));
     }
@@ -39,7 +37,7 @@ class AddressControllerTest extends AbstractControllerTest {
         addressRequest.setStreet("2");
         addressRequest.setCountry("AM");
         executeUpdateAddressRequest(addressRequest, id);
-        mockMvc.perform(get("/api/addresses/" + id).with(user(manager()))
+        mockMvc.perform(get("/api/addresses/" + id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(match(addressRequest));
     }
@@ -50,13 +48,11 @@ class AddressControllerTest extends AbstractControllerTest {
         final AddressPayload addressRequest = getAddressPayload();
         final String id = executeCreateAddressRequest(addressRequest);
         executeDeleteAddressRequest(id);
-        mockMvc.perform(get("/api/addresses/1").with(user(manager()))
+        mockMvc.perform(get("/api/addresses/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
-
-    @NotNull
     private AddressPayload getAddressPayload() {
         final AddressPayload addressRequest = new AddressPayload();
         addressRequest.setUserId(1L);
@@ -72,7 +68,6 @@ class AddressControllerTest extends AbstractControllerTest {
     }
 
 
-    @NotNull
     private ResultMatcher match(final AddressPayload addressRequest) {
         return matchAll(status().isOk(),
                 jsonPath("userId").value(addressRequest.getUserId()),
@@ -88,21 +83,21 @@ class AddressControllerTest extends AbstractControllerTest {
 
 
     private String executeCreateAddressRequest(AddressPayload createAddressRequest) throws Exception {
-        return mockMvc.perform(post("/api/addresses").with(user(manager()))
+        return mockMvc.perform(post("/api/addresses")
                 .content(mapper.writeValueAsString(createAddressRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
     }
 
     private void executeUpdateAddressRequest(AddressPayload createAddressRequest, final String id) throws Exception {
-        mockMvc.perform(put("/api/addresses/" + id).with(user(manager()))
+        mockMvc.perform(put("/api/addresses/" + id)
                 .content(mapper.writeValueAsString(createAddressRequest))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     private void executeDeleteAddressRequest(final String id) throws Exception {
-        mockMvc.perform(delete("/api/addresses/" + id).with(user(manager())))
+        mockMvc.perform(delete("/api/addresses/" + id))
                 .andExpect(status().isOk());
     }
 
