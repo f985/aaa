@@ -9,72 +9,62 @@ import am.rockstars.service.AddressService;
 import am.rockstars.service.UserService;
 import org.springframework.stereotype.Component;
 
-@Component()
+import java.util.Objects;
+
+@Component
 public class AddressSecurity {
     final AddressService addressService;
     final UserService userService;
 
     public AddressSecurity(final AddressService addressService, final UserService userService) {
-
         this.addressService = addressService;
         this.userService = userService;
     }
 
     public boolean hasAccessToCreateAddress(AddressPayload payload) {
-        if (SecurityUtils.isAnonymous()) {
-            return false;
-        }
-        Long userId = SecurityUtils.getCurrentUserId();
-        return isManager(userId) || isOwner(userId, payload);
+        return hasAccessToUserAddresses(payload.getUserId());
     }
 
     public boolean hasAccessToUpdateAddress(Long addressId) {
-        if (SecurityUtils.isAnonymous()) {
-            return false;
-        }
-        Long userId = SecurityUtils.getCurrentUserId();
-        final Address address = addressService.findById(addressId);
-        return isManager(userId) || isOwner(userId, address);
+        return hasAccessToAddress(addressId);
     }
 
     public boolean hasAccessToGetAddress(Long addressId) {
-        if (SecurityUtils.isAnonymous()) {
-            return false;
-        }
-        Long userId = SecurityUtils.getCurrentUserId();
-        final Address address = addressService.findById(addressId);
-        return isManager(userId) || isOwner(userId, address);
+        return hasAccessToAddress(addressId);
     }
 
     public boolean hasAccessToDeleteAddress(Long addressId) {
+        return hasAccessToAddress(addressId);
+    }
+
+    public boolean isOwner(final Long userId, final Long addressOwnerId) {
+        return Objects.equals(userId, addressOwnerId);
+    }
+
+    public boolean hasAccessToGetUserAddress(Long userId) {
+        return hasAccessToUserAddresses(userId);
+    }
+
+    public boolean hasAccessToAddress(Long addressId) {
         if (SecurityUtils.isAnonymous()) {
             return false;
         }
         Long userId = SecurityUtils.getCurrentUserId();
         final Address address = addressService.findById(addressId);
-        return isManager(userId) || isOwner(userId, address);
+        return isManager(userId) || isOwner(userId, address.getUser().getId());
     }
 
-    public boolean hasAccessToGetUserAddress(Long userId) {
+    public boolean hasAccessToUserAddresses(final Long userId) {
         if (SecurityUtils.isAnonymous()) {
             return false;
         }
-        Long authorizedUser = SecurityUtils.getCurrentUserId();
-        return isManager(authorizedUser) || authorizedUser.equals(userId);
+        Long currentUserId = SecurityUtils.getCurrentUserId();
+        return isManager(currentUserId) || isOwner(userId, currentUserId);
     }
 
     public boolean isManager(final Long userId) {
         final User user = userService.getById(userId);
         return user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER;
     }
-
-    public boolean isOwner(final Long userId, final AddressPayload payload) {
-        return payload.getUserId().equals(userId);
-    }
-
-    public boolean isOwner(final Long userId, final Address addres) {
-        return addres.getUser().getId().equals(userId);
-    }
-
 
 }
