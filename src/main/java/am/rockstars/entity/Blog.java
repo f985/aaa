@@ -36,9 +36,9 @@ public class Blog extends BaseEntity {
     @JoinColumn(name = "blog_id")
     private List<UserComment> userComments;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinColumn(name = "blog_id")
-    private List<Tag> tags;
+    private List<BlogTag> blogTags;
 
     @ManyToOne
     private BlogAuthor author;

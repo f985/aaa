@@ -47,4 +47,10 @@ public class BlogController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/blog/tag/{tagName}")
+    public ResponseEntity<?> createTag(@PathVariable String tagName) {
+        blogService.addTag(tagName);
+        return ResponseEntity.ok().build();
+    }
+
 }

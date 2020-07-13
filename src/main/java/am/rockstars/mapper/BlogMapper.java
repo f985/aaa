@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, componentModel = "spring")
 public interface BlogMapper {
 
-    List<BlogResponse> map(List<Blog> blogs);
+    BlogResponse map(Blog blog);
 
     Blog map(BlogRequest blogRequest);
 

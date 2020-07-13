@@ -1,6 +1,5 @@
 package am.rockstars.dto.blog.response;
 
-import am.rockstars.dto.TagInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -30,7 +29,7 @@ public class BlogResponse {
     @JsonProperty(value = "short_content")
     private String shortContent;
 
-    private List<TagInfo> tags;
+    private List<String> tags;
 
     @JsonProperty(value = "user_comments")
     private List<UserCommentResponse> userComments;

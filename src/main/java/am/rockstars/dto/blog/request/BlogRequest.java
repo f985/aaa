@@ -1,6 +1,5 @@
 package am.rockstars.dto.blog.request;
 
-import am.rockstars.dto.TagInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -33,5 +32,5 @@ public class BlogRequest {
     @JsonProperty(value = "short_content")
     private String shortContent;
 
-    private List<TagInfo> tags;
+    private List<String> tags;
 }
