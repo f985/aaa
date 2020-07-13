@@ -1,6 +1,7 @@
 package am.rockstars.service;
 
 import am.rockstars.entity.User;
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -16,4 +17,6 @@ public abstract class AbstractServiceUnitTest {
         user.setLastName("Test user");
         return user;
     }
+
+    public final EasyRandom easyRandom = new EasyRandom();
 }
