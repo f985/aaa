@@ -96,6 +96,7 @@ public class BlogService {
         log.debug("Successfully added new sub comment '{}'", userSubComment);
     }
 
+    @Transactional
     public void addTag(final String tagName) {
         log.debug("Trying add new blog tag by name '{}'", tagName);
         final BlogTag blogTag = new BlogTag();

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/blog")
 public class BlogController {
 
     private final BlogService blogService;
@@ -18,36 +18,36 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    @GetMapping("/blog")
+    @GetMapping
     public ResponseEntity<?> get() {
         return ResponseEntity.ok(blogService.getBlogs());
     }
 
-    @PostMapping("/blog/author")
+    @PostMapping("/author")
     public ResponseEntity<?> createBlogAuthor(@RequestBody BlogAuthorRequest blogAuthor) {
         blogService.addBlogAuthor(blogAuthor);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/blog")
+    @PostMapping
     public ResponseEntity<?> createBlog(@RequestBody BlogRequest blogRequest) {
         blogService.add(blogRequest);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/blog/{blogId}/comment")
+    @PostMapping("/{blogId}/comment")
     public ResponseEntity<?> createBlogComment(@PathVariable Long blogId, @RequestBody UserCommentRequest request) {
         blogService.addComment(request, blogId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/blog/{blogId}/comment/{commentId}/sub-comment")
+    @PostMapping("/{blogId}/comment/{commentId}/sub-comment")
     public ResponseEntity<?> createBlogSubComment(@PathVariable Long blogId, @PathVariable Long commentId, @RequestBody UserCommentRequest request) {
         blogService.addSubComment(request, commentId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/blog/tag/{tagName}")
+    @PostMapping("/tag/{tagName}")
     public ResponseEntity<?> createTag(@PathVariable String tagName) {
         blogService.addTag(tagName);
         return ResponseEntity.ok().build();
