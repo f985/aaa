@@ -133,14 +133,15 @@ public class ContactServiceTest extends AbstractServiceUnitTest {
         verify(mapper).map(contact);
         verifyNoMoreInteractions(repository, mapper);
         //Asserts
-        assertThat(responses).isEqualTo(response);
+        assertThat(responses.getAddress()).isEqualTo(response.getAddress());
+        assertThat(responses.getCall()).isEqualTo(response.getCall());
+        assertThat(responses.getInfo()).isEqualTo(response.getInfo());
+        assertThat(responses.getMail()).isEqualTo(response.getMail());
     }
 
     @DisplayName("Should throw exception while getting contact")
     @Test
     void thatContactThrowEntityNotFoundException() {
-        //Test data
-        final ContactRequest request = easyRandom.nextObject(ContactRequest.class);
         //Mock
         when(repository.findById(1L)).thenReturn(Optional.empty());
         //Service call
