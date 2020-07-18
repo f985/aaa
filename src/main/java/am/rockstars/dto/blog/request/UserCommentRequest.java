@@ -5,8 +5,6 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserCommentRequest {
 
     private Long id;
