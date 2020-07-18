@@ -2,21 +2,10 @@ package am.rockstars.service;
 
 import am.rockstars.dto.contact.ContactEditResponse;
 import am.rockstars.dto.contact.ContactRequest;
-import am.rockstars.dto.header.edit.CreateHeaderChildElementRequest;
-import am.rockstars.dto.header.edit.CreateHeaderChildRequest;
-import am.rockstars.dto.header.edit.CreateHeaderRequest;
-import am.rockstars.dto.header.edit.HeaderEdit;
+import am.rockstars.dto.contact.ContactResponse;
 import am.rockstars.entity.Contact;
-import am.rockstars.entity.Header;
-import am.rockstars.entity.HeaderChild;
-import am.rockstars.entity.HeaderChildElement;
-import am.rockstars.enums.HeaderType;
 import am.rockstars.mapper.ContactMapper;
-import am.rockstars.mapper.HeaderMapper;
 import am.rockstars.repository.ContactRepository;
-import am.rockstars.repository.HeaderChildElementRepository;
-import am.rockstars.repository.HeaderChildRepository;
-import am.rockstars.repository.HeaderRepository;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +15,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
@@ -67,7 +55,7 @@ public class ContactServiceTest extends AbstractServiceUnitTest {
         when(repository.save(any(Contact.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         when(repository.findAll()).thenReturn(contacts);
         //Service call
-        final List<ContactEditResponse> responses = service.addContact(request);
+        final List<ContactEditResponse> responses = service.createContact(request);
         //Verify
         verify(repository).save(contact);
         verify(repository).findAll();
@@ -129,6 +117,24 @@ public class ContactServiceTest extends AbstractServiceUnitTest {
         assertThat(responses.get(0)).isEqualTo(response);
     }
 
+    @DisplayName("Should get contact")
+    @Test
+    void thatCanGetContact() {
+        //Test data
+        final Contact contact = easyRandom.nextObject(Contact.class);
+        final ContactResponse response = easyRandom.nextObject(ContactResponse.class);
+        //Mock
+        when(mapper.map(contact)).thenReturn(response);
+        when(repository.findById(1L)).thenReturn(Optional.of(contact));
+        //Service call
+        final ContactResponse responses = service.get(1L);
+        //Verify
+        verify(repository).findById(1L);
+        verify(mapper).map(contact);
+        verifyNoMoreInteractions(repository, mapper);
+        //Asserts
+        assertThat(responses).isEqualTo(response);
+    }
 
     @DisplayName("Should throw exception while getting contact")
     @Test

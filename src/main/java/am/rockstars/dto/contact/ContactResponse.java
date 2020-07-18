@@ -5,9 +5,6 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ContactResponse {
     private String address;
 

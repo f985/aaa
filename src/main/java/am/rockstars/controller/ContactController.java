@@ -40,7 +40,7 @@ public class ContactController {
 
     @PostMapping("/admin/contact")
     public ResponseEntity<?> add(@RequestBody ContactRequest request) {
-        return ResponseEntity.ok(service.addContact(request));
+        return ResponseEntity.ok(service.createContact(request));
     }
 
     @PutMapping("/admin/contact/edit/{id}")

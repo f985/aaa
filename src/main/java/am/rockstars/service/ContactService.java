@@ -38,8 +38,7 @@ public class ContactService {
 
     public ContactResponse get(final Long id) {
         log.debug("Requested to get header by Id '{}'", id);
-        final Contact contact = repository.findById(id)
-                .orElseThrow(illegalArg("Cannot find contact by id", id));
+        final Contact contact = findById(id);
         return mapper.map(contact);
     }
 
@@ -49,7 +48,7 @@ public class ContactService {
     }
 
     @Transactional
-    public List<ContactEditResponse> addContact(final ContactRequest request) {
+    public List<ContactEditResponse> createContact(final ContactRequest request) {
         Assert.notNull(request, "Argument ContactRequest should not be null");
         log.debug("Requested to add Contact with request '{}'", request);
         final Contact contact = mapper.map(request);
@@ -74,10 +73,13 @@ public class ContactService {
     public List<ContactEditResponse> deleteContact(final Long id) {
         Assert.notNull(id, "Argument contact Id should not be null");
         log.debug("Requested to delete contact with id '{}'", id);
-        final Contact contact = repository.findById(id)
-                .orElseThrow(illegalArg("Cannot find contact for delete by id", id));
+        final Contact contact = findById(id);
         repository.delete(contact);
         log.debug("Successfully deleted contact by id '{}'", id);
         return this.getEditHeaderResponse();
+    }
+
+    private Contact findById(final Long id) {
+        return repository.findById(id).orElseThrow(illegalArg("Cannot find contact by id", id));
     }
 }
