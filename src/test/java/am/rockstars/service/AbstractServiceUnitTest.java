@@ -11,10 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @Execution(ExecutionMode.CONCURRENT)
 public abstract class AbstractServiceUnitTest {
 
+    User createTestUser() {
+        return createTestUser("test@user.em");
+    }
+
     User createTestUser(final String username) {
         final User user = new User();
         user.setEmail(username);
         user.setLastName("Test user");
+        user.setId(1L);
         return user;
     }
 

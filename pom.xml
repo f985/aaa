@@ -235,6 +235,8 @@
                     <excludes>
                         <exclude>**/Q*.class</exclude>
                         <exclude>**/*MapperImpl*.class</exclude>
+                        <exclude>**/security/filter/**.class</exclude>
+                        <exclude>**/security/jwt/**.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
