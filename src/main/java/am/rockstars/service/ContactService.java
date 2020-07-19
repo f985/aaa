@@ -29,12 +29,12 @@ public class ContactService {
 
 
     public ContactResponse get(final Long id) {
-        log.debug("Requested to get header by Id '{}'", id);
+        log.debug("Requested to get contact by Id '{}'", id);
         final Contact contact = findById(id);
         return contactMapper.map(contact);
     }
 
-    public List<ContactEditResponse> getEditHeaderResponse() {
+    public List<ContactEditResponse> getContactResponseForEdit() {
         log.debug("Requested to get all contacts for edit");
         return contactMapper.mapToEditResponse(repository.findAll());
     }
@@ -45,8 +45,8 @@ public class ContactService {
         log.debug("Requested to add contact with request '{}'", request);
         final Contact contact = contactMapper.map(request);
         final Contact savedContact = repository.save(contact);
-        log.debug("Successfully added header with id '{}' and request '{}'", savedContact.getId(), request);
-        return this.getEditHeaderResponse();
+        log.debug("Successfully added contact with id '{}' and request '{}'", savedContact.getId(), request);
+        return this.getContactResponseForEdit();
     }
 
     @Transactional
@@ -57,8 +57,8 @@ public class ContactService {
         final Contact contact = contactMapper.map(request);
         contact.setId(id);
         final Contact savedContact = repository.save(contact);
-        log.debug("Successfully added header with id '{}' and request '{}'", savedContact.getId(), request);
-        return this.getEditHeaderResponse();
+        log.debug("Successfully added contact with id '{}' and request '{}'", savedContact.getId(), request);
+        return this.getContactResponseForEdit();
     }
 
     @Transactional
@@ -68,7 +68,7 @@ public class ContactService {
         final Contact contact = findById(id);
         repository.delete(contact);
         log.debug("Successfully deleted contact by id '{}'", id);
-        return this.getEditHeaderResponse();
+        return this.getContactResponseForEdit();
     }
 
     private Contact findById(final Long id) {

@@ -97,7 +97,6 @@ public class ContactServiceTest extends AbstractServiceUnitTest {
     @Test
     void thatCanDeleteContact() {
         //Test data
-        final ContactRequest request = easyRandom.nextObject(ContactRequest.class);
         final Contact contact = easyRandom.nextObject(Contact.class);
         final ContactEditResponse response = ContactEditResponse.builder().id(1L).build();
         final List<Contact> contacts = Collections.singletonList(contact);

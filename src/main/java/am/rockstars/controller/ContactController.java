@@ -35,7 +35,7 @@ public class ContactController {
 
     @GetMapping("/admin/contact/edit")
     public ResponseEntity<?> getEditableHeaders() {
-        return ResponseEntity.ok(service.getEditHeaderResponse());
+        return ResponseEntity.ok(service.getContactResponseForEdit());
     }
 
     @PostMapping("/admin/contact")
