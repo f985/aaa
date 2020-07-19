@@ -2,8 +2,10 @@ package am.rockstars.exception;
 
 import lombok.Getter;
 
+import javax.persistence.EntityNotFoundException;
+
 @Getter
-public class ProductNotFoundForIdException extends RuntimeException {
+public class ProductNotFoundForIdException extends EntityNotFoundException {
 
     private final Long id;
 

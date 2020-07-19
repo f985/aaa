@@ -52,27 +52,29 @@ public class JWTAuthenticationService {
 
         String authToken = (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) ? authHeader.replace(TOKEN_PREFIX, "") : null;
 
-        if (authToken != null) {
-
-            Claims claims = Jwts.parser()
-                    .setSigningKey(SECRET)
-                    .parseClaimsJws(authToken)
-                    .getBody();
-
-            String username = claims.getSubject();
-
-            @SuppressWarnings("unchecked") final Optional<List<String>> authoritiesClaim = Optional.ofNullable((List<String>) claims.get(AUTHORITIES));
-
-            final List<SimpleGrantedAuthority> authorities = authoritiesClaim.orElse(List.of())
-                    .stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
-
-            return username != null ?
-                    new UsernamePasswordAuthenticationToken(username, null, authorities) :
-                    null;
+        if (authToken == null) {
+            return null;
         }
-        return null;
+        Claims claims = Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(authToken)
+                .getBody();
+        if (claims.get(ID) == null) {
+            return null;
+        }
+        UserPrincipal principal = new UserPrincipal();
+        principal.setEmail((String) claims.get(SUBJECT));
+        principal.setId(((Integer) claims.get(ID)).longValue());
+
+        @SuppressWarnings("unchecked") final Optional<List<String>> authoritiesClaim = Optional.ofNullable((List<String>) claims.get(AUTHORITIES));
+
+        final List<SimpleGrantedAuthority> authorities = authoritiesClaim.orElse(List.of())
+                .stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        return new UsernamePasswordAuthenticationToken(principal, null, authorities);
     }
+
 
 }
