@@ -1,5 +1,6 @@
 package am.rockstars.controller;
 
+import am.rockstars.dto.GetProductDetailedInfoResponse;
 import am.rockstars.dto.ProductPayload;
 import am.rockstars.entity.Product;
 import am.rockstars.mapper.ProductMapper;
@@ -40,13 +41,13 @@ public class ProductController {
 
     @ApiOperation(value = "Retrieve product by id", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("/{productId}")
-    public ProductResponse findById(@PathVariable final Long productId) {
-        return mapper.mapToProductResponse(productService.findById(productId));
+    public GetProductDetailedInfoResponse findById(@PathVariable final Long productId) {
+        return mapper.mapToProductDetailedInfoResponse(productService.findById(productId));
     }
 
     @ApiOperation(value = "Retrieve products for search predicate", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping
-    public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) Predicate searchPredicate, final Pageable pageable) {
+    public Page<ProductResponse> retrieveProducts(@QuerydslPredicate(root = Product.class) final Predicate searchPredicate, final Pageable pageable) {
         return productRepository.findAll(searchPredicate, pageable).map(mapper::mapToProductResponse);
     }
 

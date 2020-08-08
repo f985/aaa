@@ -3,16 +3,21 @@ package am.rockstars.service;
 import am.rockstars.dto.ProductPayload;
 import am.rockstars.entity.Product;
 import am.rockstars.entity.User;
+import am.rockstars.enums.ProductCategory;
+import am.rockstars.enums.ProductStatus;
+import am.rockstars.enums.ProductType;
 import am.rockstars.exception.ProductNotFoundForIdException;
+import am.rockstars.mapper.ProductMapper;
 import am.rockstars.repository.ProductRepository;
-import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.springframework.beans.BeanUtils;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,14 +36,34 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private ProductMapper productMapper;
+
     @DisplayName("Should create product for provided payload")
     @Test
     void createProduct() {
         //Test data
         final User testUser = createTestUser("Sergey");
-        final EasyRandom easyRandom = new EasyRandom();
-        final ProductPayload productPayload = easyRandom.nextObject(ProductPayload.class);
+        final ProductPayload productPayload = ProductPayload.builder()
+                .name("Vanardi")
+                .description("Test product")
+                .availability(true)
+                .popular(false)
+                .productCode("0001")
+                .color("green")
+                .brand("LA")
+                .category("LA")
+                .categoryType(ProductCategory.MEN)
+                .status(ProductStatus.NEW)
+                .quantity(1)
+                .rating(1)
+                .price(BigDecimal.TEN)
+                .type(ProductType.WINE)
+                .build();
+        final Product product = new Product();
+        BeanUtils.copyProperties(productPayload, product);
         //Mock
+        when(productMapper.mapToProduct(any(ProductPayload.class))).thenReturn(product);
         when(userService.getUserByEmail(eq("Sergey"))).thenReturn(testUser);
         when(productRepository.save(any(Product.class))).then(invocationOnMock -> invocationOnMock.getArgument(0));
         //Service call
@@ -47,6 +72,7 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
         verify(userService).getUserByEmail(eq("Sergey"));
         final ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);
         verify(productRepository).save(productArgumentCaptor.capture());
+        verify(productMapper).mapToProduct(productPayload);
         verifyNoMoreInteractions(userService, productRepository);
         //Asserts
         assertThat(productArgumentCaptor.getValue()).isEqualToIgnoringGivenFields(productPayload, "createdBy", "id", "createdAt", "updatedAt");
@@ -87,14 +113,32 @@ public class ProductServiceTest extends AbstractServiceUnitTest {
     @Test
     void updateProduct() {
         //Test data
-        final EasyRandom easyRandom = new EasyRandom();
-        final ProductPayload productPayload = easyRandom.nextObject(ProductPayload.class);
+        final ProductPayload productPayload = ProductPayload.builder()
+                .name("Vanardi")
+                .description("Test product")
+                .availability(true)
+                .popular(false)
+                .productCode("0001")
+                .color("green")
+                .brand("LA")
+                .category("LA")
+                .categoryType(ProductCategory.MEN)
+                .status(ProductStatus.NEW)
+                .quantity(1)
+                .rating(1)
+                .price(BigDecimal.TEN)
+                .type(ProductType.WINE)
+                .build();
+        final Product product = new Product();
+        BeanUtils.copyProperties(productPayload, product);
         //Mock
+        when(productMapper.mapToProduct(any(ProductPayload.class))).thenReturn(product);
         doReturn(new Product()).when(productService).findById(eq(1L));
         when(productRepository.save(any(Product.class))).then(invocation -> invocation.getArgument(0));
         //Service call
         productService.updateProduct(1L, productPayload);
         //Verify
+        verify(productMapper).mapToProduct(productPayload);
         verify(productService).findById(eq(1L));
         verify(productService).updateProduct(anyLong(), any(ProductPayload.class));
         final ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);

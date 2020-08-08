@@ -3,10 +3,10 @@ package am.rockstars.service;
 import am.rockstars.dto.ProductPayload;
 import am.rockstars.entity.Product;
 import am.rockstars.exception.ProductNotFoundForIdException;
+import am.rockstars.mapper.ProductMapper;
 import am.rockstars.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -23,20 +23,22 @@ public class ProductService {
 
     private final UserService userService;
 
+    private final ProductMapper productMapper;
+
     @Transactional
     public void createProduct(final String username, final ProductPayload payload) {
         Assert.notNull(payload, "Product payload should not be null");
         log.debug("Creating product for provided payload '{}' username {}", payload, username);
-        final Product product = new Product();
-        BeanUtils.copyProperties(payload, product);
+        final Product product = productMapper.mapToProduct(payload);
         product.setCreatedBy(userService.getUserByEmail(username));
         productRepository.save(product);
     }
 
     @Transactional
     public void updateProduct(final Long productId, final ProductPayload payload) {
-        final Product product = findById(productId);
-        BeanUtils.copyProperties(payload, product);
+        final Product storedProduct = findById(productId);
+        final Product product = productMapper.mapToProduct(payload);
+        product.setId(storedProduct.getId());
         productRepository.save(product);
     }
 
